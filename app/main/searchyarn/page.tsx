@@ -95,6 +95,20 @@ export default function SearchPage() {
 
   const disableActions = isSearching || isExporting || isMutating;
 
+  const [ranges, setRanges] = useState({
+  tensileMin: "",
+  tensileMax: "",
+  elongationMin: "",
+  elongationMax: "",
+  widthMin: "",
+  widthMax: "",
+});
+
+  const updateRange = (key: keyof typeof ranges, value: string) => {
+  setRanges((prev) => ({ ...prev, [key]: value }));
+};
+
+
   const handleSearch = async () => {
     if (!productType) return setErrorMessage("Please enter a product type to search for.");
     if (!machine) return setErrorMessage("Please enter the machine.");
@@ -444,6 +458,85 @@ export default function SearchPage() {
         </div>
 
         <div className="flex justify-end gap-3 pt-4">
+            <div className="bg-white p-4 rounded-lg border space-y-3">
+  <h3 className="text-sm font-semibold text-indigo-700">
+    Range
+  </h3>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {/* Tensile */}
+    <div>
+      <label className="text-xs font-medium text-gray-700 block mb-1">
+        Tensile
+      </label>
+      <div className="flex gap-2">
+        <input
+          type="number"
+          placeholder="Min"
+          className={baseInputStyle}
+          value={ranges.tensileMin}
+          onChange={(e) => updateRange("tensileMin", e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Max"
+          className={baseInputStyle}
+          value={ranges.tensileMax}
+          onChange={(e) => updateRange("tensileMax", e.target.value)}
+        />
+      </div>
+    </div>
+
+    {/* Elongation */}
+    <div>
+      <label className="text-xs font-medium text-gray-700 block mb-1">
+        Elongation
+      </label>
+      <div className="flex gap-2">
+        <input
+          type="number"
+          placeholder="Min"
+          className={baseInputStyle}
+          value={ranges.elongationMin}
+          onChange={(e) => updateRange("elongationMin", e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Max"
+          className={baseInputStyle}
+          value={ranges.elongationMax}
+          onChange={(e) => updateRange("elongationMax", e.target.value)}
+        />
+      </div>
+    </div>
+
+    {/* Width */}
+    <div>
+      <label className="text-xs font-medium text-gray-700 block mb-1">
+        Width
+      </label>
+      <div className="flex gap-2">
+        <input
+          type="number"
+          placeholder="Min"
+          className={baseInputStyle}
+          value={ranges.widthMin}
+          onChange={(e) => updateRange("widthMin", e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Max"
+          className={baseInputStyle}
+          value={ranges.widthMax}
+          onChange={(e) => updateRange("widthMax", e.target.value)}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+        <div className="flex justify-end gap-3 pt-4">
           <button
             ref={searchBtnRef}
             onClick={handleSearch}
@@ -500,9 +593,22 @@ export default function SearchPage() {
                   <tr key={row.id || idx}>
                     {HEADERS.map((h) =>
                       h.key !== "actions" ? (
-                        <td key={h.key} className="px-6 py-4 text-sm text-gray-700">
-                          {h.key === "date" ? toDisplayDate(row[h.key]) : row[h.key] ?? ""}
-                        </td>
+<td
+  key={h.key}
+  className={`px-6 py-4 text-sm ${
+    (h.key === "tensile" &&
+      isOutOfRange(row.tensile, ranges.tensileMin, ranges.tensileMax)) ||
+    (h.key === "elongation" &&
+      isOutOfRange(row.elongation, ranges.elongationMin, ranges.elongationMax)) ||
+    (h.key === "widthMm" &&
+      isOutOfRange(row.widthMm, ranges.widthMin, ranges.widthMax))
+      ? "text-red-600 font-semibold bg-red-50"
+      : "text-gray-700"
+  }`}
+>
+  {h.key === "date" ? toDisplayDate(row[h.key]) : row[h.key] ?? ""}
+</td>
+
                       ) : (
                         <td key="actions" className="px-6 py-4 text-sm text-gray-700">
                           <div className="flex gap-2">
@@ -693,6 +799,23 @@ export default function SearchPage() {
     </div>
   );
 }
+
+function isOutOfRange(
+  value: any,
+  min?: string,
+  max?: string
+): boolean {
+  if (value == null || value === "") return false;
+
+  const num = Number(value);
+  if (!Number.isFinite(num)) return false;
+
+  if (min !== "" && num < Number(min)) return true;
+  if (max !== "" && num > Number(max)) return true;
+
+  return false;
+}
+
 
 /** Small UI wrapper so your form stays neat */
 function Field({

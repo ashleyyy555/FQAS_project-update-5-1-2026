@@ -81,7 +81,7 @@ export default function PackingUI() {
           elongationMD,
           elongationCD,
           tubingTensile: showTubingTensile ? tubingTensile : null,
-          tubingElongatio: showTubingElongation ? tubingElongation : null,
+          tubingElongation: showTubingElongation ? tubingElongation : null,
           tubingPeelPeak: showTubingPeelPeak ? tubingPeelPeak : null,
           tubingPeelAvg: showTubingPeelAvg ? tubingPeelAvg : null,
           notes,
