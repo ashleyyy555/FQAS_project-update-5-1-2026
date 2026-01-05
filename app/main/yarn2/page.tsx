@@ -53,7 +53,7 @@ export default function YarnUI() {
     setSaving(true);
 
     try {
-      const res = await fetch("/api/yarn", {
+      const res = await fetch("/api/yarn2", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -115,7 +115,7 @@ export default function YarnUI() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <h1 className="text-3xl font-extrabold text-gray-900">
-        Yarn Data Entry
+        Yarn Production Data Entry
       </h1>
 
       <div className="bg-white border border-gray-300 rounded-xl shadow-lg p-6 space-y-4">

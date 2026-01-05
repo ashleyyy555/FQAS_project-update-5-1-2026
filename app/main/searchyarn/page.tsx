@@ -142,7 +142,7 @@ export default function SearchPage() {
       const colCount = headersNoActions.length;
 
       // 1) Title row
-      const title = `Yarn Summary (${startDate} to ${endDate})`;
+      const title = `Yarn(QA) Summary (${startDate} to ${endDate})`;
       ws.addRow([title]);
       ws.mergeCells(1, 1, 1, colCount);
 
@@ -245,7 +245,7 @@ export default function SearchPage() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `yarn_${startDate}_to_${endDate}.xlsx`;
+      a.download = `yarn(QA)_${startDate}_to_${endDate}.xlsx`;
       a.click();
       URL.revokeObjectURL(url);
     } catch (err: any) {

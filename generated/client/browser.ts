@@ -97,3 +97,8 @@ export type LaminationWrapper = Prisma.LaminationWrapperModel
  * 
  */
 export type Yarn = Prisma.YarnModel
+/**
+ * Model Yarn2
+ * 
+ */
+export type Yarn2 = Prisma.Yarn2Model

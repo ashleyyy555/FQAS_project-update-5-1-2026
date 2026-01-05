@@ -66,7 +66,8 @@ export const ModelName = {
   LaminationRadiantBarrier: 'LaminationRadiantBarrier',
   LaminationUltraFoil: 'LaminationUltraFoil',
   LaminationWrapper: 'LaminationWrapper',
-  Yarn: 'Yarn'
+  Yarn: 'Yarn',
+  Yarn2: 'Yarn2'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -698,6 +699,28 @@ export const YarnScalarFieldEnum = {
 } as const
 
 export type YarnScalarFieldEnum = (typeof YarnScalarFieldEnum)[keyof typeof YarnScalarFieldEnum]
+
+
+export const Yarn2ScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  productType: 'productType',
+  productID: 'productID',
+  material: 'material',
+  widthMm: 'widthMm',
+  side: 'side',
+  time: 'time',
+  denier: 'denier',
+  machine: 'machine',
+  tensile: 'tensile',
+  elongation: 'elongation',
+  tenacity: 'tenacity',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type Yarn2ScalarFieldEnum = (typeof Yarn2ScalarFieldEnum)[keyof typeof Yarn2ScalarFieldEnum]
 
 
 export const SortOrder = {

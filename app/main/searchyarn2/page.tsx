@@ -4,7 +4,12 @@ import React, { useState, useRef } from "react";
 import ExcelJS from "exceljs";
 import { FaCalendarAlt } from "react-icons/fa";
 
-import { fetchYarnById, updateYarn, deleteYarn } from "@/app/actions/yarnRecords";
+// ✅ IMPORTANT: use Yarn2 actions, not QA Yarn actions
+import {
+  fetchYarn2ById,
+  updateYarn2,
+  deleteYarn2,
+} from "@/app/actions/yarn2Records";
 
 const baseInputStyle =
   "w-full p-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500";
@@ -43,12 +48,11 @@ const getCurrentDate = () => new Date().toISOString().split("T")[0];
  */
 function toISODateOnly(v: any): string {
   if (!v) return "";
-  // If already YYYY-MM-DD
   if (typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v.trim())) return v.trim();
 
   const d = new Date(v);
   if (Number.isNaN(d.getTime())) return "";
-  return d.toISOString().split("T")[0]; // always YYYY-MM-DD
+  return d.toISOString().split("T")[0];
 }
 
 // Small helper for UI rendering (YYYY/MM/DD)
@@ -136,13 +140,13 @@ export default function SearchPage() {
 
     try {
       const workbook = new ExcelJS.Workbook();
-      const ws = workbook.addWorksheet("Yarn Data");
+      const ws = workbook.addWorksheet("Yarn2 Data");
 
       const headersNoActions = HEADERS.filter((h) => h.key !== "actions");
       const colCount = headersNoActions.length;
 
-      // 1) Title row
-      const title = `Yarn Summary (${startDate} to ${endDate})`;
+      // Title row
+      const title = `Yarn(Production) Summary (${startDate} to ${endDate})`;
       ws.addRow([title]);
       ws.mergeCells(1, 1, 1, colCount);
 
@@ -154,21 +158,13 @@ export default function SearchPage() {
       // Spacer row
       ws.addRow([]);
 
-      // 2) Header row
+      // Header row
       const headerRow = ws.addRow(headersNoActions.map((h) => h.label));
       headerRow.font = { bold: true };
-      headerRow.alignment = {
-        horizontal: "center",
-        vertical: "middle",
-        wrapText: true,
-      };
+      headerRow.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
 
       headerRow.eachCell((cell) => {
-        cell.fill = {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "FFE5E7EB" }, // light gray
-        };
+        cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFE5E7EB" } };
         cell.border = {
           top: { style: "thin" },
           left: { style: "thin" },
@@ -177,16 +173,14 @@ export default function SearchPage() {
         };
       });
 
-      // 3) Data rows
+      // Data rows
       searchResults.forEach((row) => {
         const values = headersNoActions.map((h) => {
           const key = h.key as string;
           const value = row[key];
 
-          // ✅ Force exported date to be plain "YYYY-MM-DD" string
           if (key === "date") return toISODateOnly(value);
 
-          // Numeric: convert to number (or null)
           if (NUMERIC_KEYS.has(key)) {
             if (value == null || value === "") return null;
             const n = Number(value);
@@ -201,7 +195,6 @@ export default function SearchPage() {
         excelRow.eachCell((cell, colNumber) => {
           const key = headersNoActions[colNumber - 1]?.key as string;
 
-          // Borders
           cell.border = {
             top: { style: "thin" },
             left: { style: "thin" },
@@ -209,13 +202,8 @@ export default function SearchPage() {
             right: { style: "thin" },
           };
 
-          // Formats
-          // ✅ Date is string now, so do NOT apply date numFmt
-          if (NUMERIC_KEYS.has(key)) {
-            cell.numFmt = "0.00";
-          }
+          if (NUMERIC_KEYS.has(key)) cell.numFmt = "0.00";
 
-          // Center everything
           cell.alignment = {
             horizontal: "center",
             vertical: "middle",
@@ -224,16 +212,14 @@ export default function SearchPage() {
         });
       });
 
-      // 4) Auto-fit columns
+      // Auto-fit columns
       ws.columns.forEach((col: any) => {
         let maxLength = 8;
-
         col.eachCell({ includeEmpty: true }, (cell: any) => {
           const v = cell.value;
           const text = v == null ? "" : String(v);
           maxLength = Math.max(maxLength, text.length + 1);
         });
-
         col.width = Math.min(Math.max(maxLength, 8), 18);
       });
 
@@ -245,7 +231,7 @@ export default function SearchPage() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `yarn_${startDate}_to_${endDate}.xlsx`;
+      a.download = `yarn(Production)_${startDate}_to_${endDate}.xlsx`;
       a.click();
       URL.revokeObjectURL(url);
     } catch (err: any) {
@@ -262,7 +248,8 @@ export default function SearchPage() {
     setErrorMessage("");
 
     try {
-      const fetched = await fetchYarnById({ id: String(row.id) });
+      // ✅ Yarn2 fetch
+      const fetched = await fetchYarn2ById({ id: String(row.id) });
       if (fetched.error || !fetched.data) {
         setErrorMessage(fetched.error || "Failed to load data.");
         return;
@@ -272,7 +259,7 @@ export default function SearchPage() {
 
       setEditingRow(current);
       setEditForm({
-        date: toISODateOnly(current.date), // ✅ always YYYY-MM-DD for input
+        date: toISODateOnly(current.date),
         productID: current.productID ?? "",
         productType: current.productType ?? "",
         machine: current.machine ?? "",
@@ -306,7 +293,8 @@ export default function SearchPage() {
     setErrorMessage("");
 
     try {
-      const updatedRes = (await updateYarn({
+      // ✅ Yarn2 update
+      const updatedRes = (await updateYarn2({
         id: String(editingRow.id),
         data: editForm,
       })) as any;
@@ -337,7 +325,8 @@ export default function SearchPage() {
     setErrorMessage("");
 
     try {
-      const res = await deleteYarn({ id: String(row.id) });
+      // ✅ Yarn2 delete
+      const res = await deleteYarn2({ id: String(row.id) });
       if (res.error) {
         setErrorMessage(res.error);
         return;
@@ -353,7 +342,7 @@ export default function SearchPage() {
 
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-6">
-      <h1 className="text-3xl font-extrabold text-gray-900">Yarn Search</h1>
+      <h1 className="text-3xl font-extrabold text-gray-900">Yarn2 Search</h1>
 
       {/* Filters */}
       <div className="bg-white p-6 rounded-xl shadow border space-y-4">
@@ -449,12 +438,6 @@ export default function SearchPage() {
             onClick={handleSearch}
             disabled={disableActions}
             className="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                handleSearch();
-              }
-            }}
           >
             {isSearching ? "Searching..." : "Search"}
           </button>
@@ -541,7 +524,7 @@ export default function SearchPage() {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-3xl space-y-4 max-h-[85vh] overflow-y-auto">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Edit Yarn (ID: {editingRow.id})</h3>
+              <h3 className="text-lg font-semibold">Edit Yarn2 (ID: {editingRow.id})</h3>
               <button
                 onClick={handleEditCancel}
                 className="text-gray-500 hover:text-gray-700"
@@ -658,7 +641,6 @@ export default function SearchPage() {
                   value={editForm.tenacity}
                   disabled
                   readOnly
-                  onChange={(e) => handleEditChange("tenacity", e.target.value)}
                 />
               </Field>
 

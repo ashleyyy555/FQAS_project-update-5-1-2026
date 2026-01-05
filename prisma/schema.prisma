@@ -838,6 +838,61 @@ model Yarn {
 }
 
 
+model Yarn2 {
+  id            Int      @id @default(autoincrement())
+
+  /// Date user selects in the UI (YYYY-MM-DD). Store as DateTime (date-only).
+  date          DateTime @db.Date
+
+  /// "PP", etc.
+  productType   String   @db.VarChar(50)
+
+  /// "I.D" in UI (can be alphanumeric, so keep String)
+  productID     String?  @db.VarChar(50)
+
+  /// Material (e.g., "Innoplus")
+  material      String?  @db.VarChar(100)
+
+  /// Width (mm) - numeric, allow decimals
+  widthMm       Decimal? @db.Decimal(10, 2)
+
+  /// Side (e.g., A/B)
+  side          String?  @db.VarChar(10)
+
+  /// Time (e.g., AM/PM) or shift code
+  time          String?  @db.VarChar(10)
+
+  /// Denier - numeric, allow decimals
+  denier        Decimal? @db.Decimal(10, 2)
+
+  /// Machine name / code
+  machine       String?  @db.VarChar(50)
+
+  /// Strength values (N/50mm)
+  tensile       Decimal? @db.Decimal(10, 2)
+
+  /// Elongation values (%)
+  elongation    Decimal? @db.Decimal(10, 2)
+
+  /// tensile/denier
+  tenacity      Decimal? @db.Decimal(10, 3)
+
+  notes         String?  @db.Text
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("Yarn2")
+  @@index([date])
+  @@index([productType])
+  @@index([productID])
+  @@index([material])
+  @@index([machine])
+  @@index([side])
+  @@index([time])
+}
+
+
 
 
 

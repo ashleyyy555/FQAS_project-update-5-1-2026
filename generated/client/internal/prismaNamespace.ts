@@ -399,7 +399,8 @@ export const ModelName = {
   LaminationRadiantBarrier: 'LaminationRadiantBarrier',
   LaminationUltraFoil: 'LaminationUltraFoil',
   LaminationWrapper: 'LaminationWrapper',
-  Yarn: 'Yarn'
+  Yarn: 'Yarn',
+  Yarn2: 'Yarn2'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "session" | "verificationToken" | "user" | "packaging" | "laminationBubbleFoamBubble" | "laminationBubbleFoil" | "laminationFilmFoilAlumFGlass" | "laminationLeno" | "laminationMs2095" | "laminationNonWoven" | "laminationPaperFoil" | "laminationRadiantBarrier" | "laminationUltraFoil" | "laminationWrapper" | "yarn"
+    modelProps: "account" | "session" | "verificationToken" | "user" | "packaging" | "laminationBubbleFoamBubble" | "laminationBubbleFoil" | "laminationFilmFoilAlumFGlass" | "laminationLeno" | "laminationMs2095" | "laminationNonWoven" | "laminationPaperFoil" | "laminationRadiantBarrier" | "laminationUltraFoil" | "laminationWrapper" | "yarn" | "yarn2"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1603,6 +1604,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Yarn2: {
+      payload: Prisma.$Yarn2Payload<ExtArgs>
+      fields: Prisma.Yarn2FieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.Yarn2FindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.Yarn2FindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload>
+        }
+        findFirst: {
+          args: Prisma.Yarn2FindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.Yarn2FindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload>
+        }
+        findMany: {
+          args: Prisma.Yarn2FindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload>[]
+        }
+        create: {
+          args: Prisma.Yarn2CreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload>
+        }
+        createMany: {
+          args: Prisma.Yarn2CreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.Yarn2CreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload>[]
+        }
+        delete: {
+          args: Prisma.Yarn2DeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload>
+        }
+        update: {
+          args: Prisma.Yarn2UpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload>
+        }
+        deleteMany: {
+          args: Prisma.Yarn2DeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.Yarn2UpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.Yarn2UpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload>[]
+        }
+        upsert: {
+          args: Prisma.Yarn2UpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Yarn2Payload>
+        }
+        aggregate: {
+          args: Prisma.Yarn2AggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateYarn2>
+        }
+        groupBy: {
+          args: Prisma.Yarn2GroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Yarn2GroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.Yarn2CountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Yarn2CountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2257,6 +2332,28 @@ export const YarnScalarFieldEnum = {
 export type YarnScalarFieldEnum = (typeof YarnScalarFieldEnum)[keyof typeof YarnScalarFieldEnum]
 
 
+export const Yarn2ScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  productType: 'productType',
+  productID: 'productID',
+  material: 'material',
+  widthMm: 'widthMm',
+  side: 'side',
+  time: 'time',
+  denier: 'denier',
+  machine: 'machine',
+  tensile: 'tensile',
+  elongation: 'elongation',
+  tenacity: 'tenacity',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type Yarn2ScalarFieldEnum = (typeof Yarn2ScalarFieldEnum)[keyof typeof Yarn2ScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2474,6 +2571,7 @@ export type GlobalOmitConfig = {
   laminationUltraFoil?: Prisma.LaminationUltraFoilOmit
   laminationWrapper?: Prisma.LaminationWrapperOmit
   yarn?: Prisma.YarnOmit
+  yarn2?: Prisma.Yarn2Omit
 }
 
 /* Types for Logging */

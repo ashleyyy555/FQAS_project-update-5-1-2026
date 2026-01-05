@@ -24,10 +24,7 @@ function normalizeNoSpaceUpper(v: unknown): string | null {
   return raw.replace(/\s+/g, "").toUpperCase();
 }
 
-/**
- * Normalize (trim only, keep spaces/case).
- * Use this if you ever want to preserve user formatting.
- */
+/** Trim only. Empty -> null */
 function toTrimOrNull(v: unknown): string | null {
   if (v == null) return null;
   const s = String(v).trim();
@@ -35,7 +32,6 @@ function toTrimOrNull(v: unknown): string | null {
 }
 
 /**
- * Calculate Tenacity:
  * Tenacity = (tensile ÷ denier) x 1000
  * - return null if missing inputs or denier == 0
  * - round to 3 decimal places
@@ -59,17 +55,13 @@ function toDateOnlyOrThrow(v: unknown): Date {
   return d;
 }
 
-/** API entry point */
 export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // -----------------------------
-    // Required fields (UI rule)
-    // -----------------------------
+    // Required
     const date = toDateOnlyOrThrow(body?.date);
     const productType = normalizeNoSpaceUpper(body?.productType);
-
     if (!productType) {
       return NextResponse.json(
         { message: "Please make sure Product Type is provided." },
@@ -77,31 +69,24 @@ export async function POST(req: Request) {
       );
     }
 
-    // -----------------------------
-    // Optional normalized text fields
-    // -----------------------------
-    const productID = normalizeNoSpaceUpper(body?.productID); // OPTIONAL now
+    // Optional text fields
+    const productID = normalizeNoSpaceUpper(body?.productID);
     const machine = normalizeNoSpaceUpper(body?.machine);
-
-    // New fields from UI
     const side = normalizeNoSpaceUpper(body?.side);
     const time = normalizeNoSpaceUpper(body?.time);
 
-    // -----------------------------
-    // Numeric fields (UI sends strings)
-    // -----------------------------
-    const widthMm = toNumOrNull(body?.width);
+    // ✅ NEW: material (same normalization rule as you wanted)
+    const material = normalizeNoSpaceUpper(body?.material);
+
+    // Numeric fields
+    const widthMm = toNumOrNull(body?.width); // UI sends "width"
     const denier = toNumOrNull(body?.denier);
     const tensile = toNumOrNull(body?.tensile);
     const elongation = toNumOrNull(body?.elongation);
 
-    // -----------------------------
-    // Calculation: Tenacity
-    // -----------------------------
+    // Tenacity
     const tenacity = calcTenacity(tensile, denier);
 
-    // Optional validation: if tensile exists but denier missing/zero, block save
-    // (keep this rule if you want tenacity to make sense whenever tensile is filled)
     if (tensile != null && (denier == null || denier === 0)) {
       return NextResponse.json(
         {
@@ -112,15 +97,10 @@ export async function POST(req: Request) {
       );
     }
 
-    // -----------------------------
-    // Notes (trim only)
-    // -----------------------------
+    // Notes
     const notes = toTrimOrNull(body?.notes);
 
-    // -----------------------------
-    // Optional: ensure at least one measurement is present
-    // (side/time/machine/productID are metadata, so not counted)
-    // -----------------------------
+    // Require at least one measurement or notes
     const hasAnyMeasurement =
       widthMm != null ||
       denier != null ||
@@ -138,26 +118,21 @@ export async function POST(req: Request) {
       );
     }
 
-    // -----------------------------
-    // Insert into DB
-    // -----------------------------
-    const saved = await prisma.yarn.create({
+    // ✅ IMPORTANT: save into yarn2 table/model
+    const saved = await prisma.yarn2.create({
       data: {
         date,
         productType,
         productID,
-
+        material,
         widthMm,
         side,
         time,
-
         denier,
         machine,
-
         tensile,
         elongation,
         tenacity,
-
         notes,
       },
       select: {
@@ -165,6 +140,7 @@ export async function POST(req: Request) {
         date: true,
         productType: true,
         productID: true,
+        material: true,
         side: true,
         time: true,
         denier: true,
@@ -173,13 +149,10 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(
-      { ok: true, table: "Yarn", data: saved },
-      { status: 201 }
-    );
+    return NextResponse.json({ ok: true, table: "Yarn2", data: saved }, { status: 201 });
   } catch (err) {
-    console.error("[/api/yarn] POST error:", err);
-    const message = (err as Error)?.message ?? "Failed to process yarn entry.";
+    console.error("[/api/yarn2] POST error:", err);
+    const message = (err as Error)?.message ?? "Failed to process yarn2 entry.";
     return NextResponse.json({ message }, { status: 500 });
   }
 }
