@@ -5,7 +5,7 @@ import { z } from "zod";
 
 /* ----------------- Helpers ----------------- */
 
-// remove spaces + UPPERCASE (good for productType, machine, side, time, productID)
+// remove spaces + UPPERCASE (good for productType, machine, side, time, productID, material)
 function normalizeNoSpaceUpper(v: unknown): string | null {
   const raw = String(v ?? "").trim();
   if (!raw) return null;
@@ -129,12 +129,12 @@ export async function updateYarn(input: unknown) {
     cleaned.machine = normalizeNoSpaceUpper(cleaned.machine);
   }
 
-  // ✅ 3) side: remove spaces + UPPERCASE (allow empty -> null)
+  // 3) side: remove spaces + UPPERCASE (allow empty -> null)
   if ("side" in cleaned) {
     cleaned.side = normalizeNoSpaceUpper(cleaned.side);
   }
 
-  // ✅ 4) time: remove spaces + UPPERCASE (allow empty -> null)
+  // 4) time: remove spaces + UPPERCASE (allow empty -> null)
   if ("time" in cleaned) {
     cleaned.time = normalizeNoSpaceUpper(cleaned.time);
   }
@@ -142,6 +142,11 @@ export async function updateYarn(input: unknown) {
   // 5) productID: OPTIONAL now (allow empty -> null)
   if ("productID" in cleaned) {
     cleaned.productID = normalizeNoSpaceUpper(cleaned.productID); // null if empty
+  }
+
+  // ✅ 6) material: remove spaces + UPPERCASE (allow empty -> null)
+  if ("material" in cleaned) {
+    cleaned.material = normalizeNoSpaceUpper(cleaned.material); // null if empty
   }
 
   // --- Handle date ---
