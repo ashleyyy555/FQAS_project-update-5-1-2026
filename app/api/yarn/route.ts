@@ -87,10 +87,15 @@ export async function POST(req: Request) {
     const side = normalizeNoSpaceUpper(body?.side);
     const time = normalizeNoSpaceUpper(body?.time);
 
+    // NEW: material (UI sends "material")
+    // If you want to KEEP spaces/case like "Inno Plus", use toTrimOrNull instead.
+    // const material = toTrimOrNull(body?.material);
+    const material = normalizeNoSpaceUpper(body?.material);
+
     // -----------------------------
     // Numeric fields (UI sends strings)
     // -----------------------------
-    const widthMm = toNumOrNull(body?.width);
+    const widthMm = toNumOrNull(body?.width); // UI uses "width"
     const denier = toNumOrNull(body?.denier);
     const tensile = toNumOrNull(body?.tensile);
     const elongation = toNumOrNull(body?.elongation);
@@ -101,7 +106,6 @@ export async function POST(req: Request) {
     const tenacity = calcTenacity(tensile, denier);
 
     // Optional validation: if tensile exists but denier missing/zero, block save
-    // (keep this rule if you want tenacity to make sense whenever tensile is filled)
     if (tensile != null && (denier == null || denier === 0)) {
       return NextResponse.json(
         {
@@ -119,7 +123,7 @@ export async function POST(req: Request) {
 
     // -----------------------------
     // Optional: ensure at least one measurement is present
-    // (side/time/machine/productID are metadata, so not counted)
+    // (side/time/machine/productID/material are metadata, so not counted)
     // -----------------------------
     const hasAnyMeasurement =
       widthMm != null ||
@@ -147,6 +151,9 @@ export async function POST(req: Request) {
         productType,
         productID,
 
+        // ✅ NEW
+        material,
+
         widthMm,
         side,
         time,
@@ -165,6 +172,10 @@ export async function POST(req: Request) {
         date: true,
         productType: true,
         productID: true,
+
+        // NEW (so response includes it)
+        material: true,
+
         side: true,
         time: true,
         denier: true,

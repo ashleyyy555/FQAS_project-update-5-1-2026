@@ -16,11 +16,12 @@ const HEADERS = [
   { key: "productType", label: "Product Type" },
   { key: "machine", label: "Machine" },
   { key: "denier", label: "Denier" },
-  { key: "widthMm", label: "Width" },
+  { key: "material", label: "Material" },
   { key: "side", label: "Side" },
   { key: "time", label: "Time" },
   { key: "tensile", label: "Tensile" },
   { key: "elongation", label: "Elongation" },
+  { key: "widthMm", label: "Width" },
   { key: "tenacity", label: "Tenacity" },
   { key: "notes", label: "Notes" },
   { key: "actions", label: "Actions" },
@@ -82,11 +83,12 @@ export default function SearchPage() {
     productType: "",
     machine: "",
     denier: "",
-    widthMm: "",
+    material: "",
     side: "",
     time: "",
     tensile: "",
     elongation: "",
+    widthMm: "",
     tenacity: "",
     notes: "",
   });
@@ -275,11 +277,12 @@ export default function SearchPage() {
         productType: current.productType ?? "",
         machine: current.machine ?? "",
         denier: current.denier != null ? String(current.denier) : "",
-        widthMm: current.widthMm != null ? String(current.widthMm) : "",
+        material: current.material ?? "",
         side: current.side != null ? String(current.side) : "",
         time: current.time != null ? String(current.time) : "",
         tensile: current.tensile != null ? String(current.tensile) : "",
         elongation: current.elongation != null ? String(current.elongation) : "",
+        widthMm: current.widthMm != null ? String(current.widthMm) : "",
         tenacity: current.tenacity != null ? String(current.tenacity) : "",
         notes: current.notes ?? "",
       });
@@ -594,12 +597,12 @@ export default function SearchPage() {
                 />
               </Field>
 
-              <Field label="Width">
+              <Field label="Material">
                 <input
-                  type="number"
+                  type="text"
                   className={baseInputStyle}
-                  value={editForm.widthMm}
-                  onChange={(e) => handleEditChange("widthMm", e.target.value)}
+                  value={editForm.material}
+                  onChange={(e) => handleEditChange("material", e.target.value)}
                 />
               </Field>
 
@@ -636,6 +639,15 @@ export default function SearchPage() {
                   className={baseInputStyle}
                   value={editForm.elongation}
                   onChange={(e) => handleEditChange("elongation", e.target.value)}
+                />
+              </Field>
+
+              <Field label="Width">
+                <input
+                  type="number"
+                  className={baseInputStyle}
+                  value={editForm.widthMm}
+                  onChange={(e) => handleEditChange("widthMm", e.target.value)}
                 />
               </Field>
 

@@ -797,6 +797,8 @@ model Yarn {
   /// "I.D" in UI (can be alphanumeric, so keep String)
   productID     String?  @db.VarChar(50)
 
+  material      String?  @db.VarChar(100)
+
   /// Width (mm) - numeric, allow decimals
   widthMm       Decimal? @db.Decimal(10, 2)
 
@@ -829,6 +831,7 @@ model Yarn {
   @@index([date])
   @@index([productType])
   @@index([productID])
+  @@index([material])
   @@index([machine])
   @@index([side])
   @@index([time])

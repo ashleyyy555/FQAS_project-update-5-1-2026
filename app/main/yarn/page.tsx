@@ -6,6 +6,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 export default function YarnUI() {
   const [productID, setProductID] = useState("");
   const [productType, setProductType] = useState("");
+  const [material, setMaterial] = useState("");
   const [width, setWidth] = useState("");
   const [side, setSide] = useState("");
   const [time, setTime] = useState("");
@@ -59,6 +60,7 @@ export default function YarnUI() {
           date: dateValue,
           productID,
           productType,
+          material,
           width,
           side,
           time,
@@ -88,6 +90,7 @@ export default function YarnUI() {
       // Clear fields (keep date & product type)
       setTensile("");
       setElongation("");
+      setWidth("");
     } catch (error) {
       console.error(error);
       alert("Error while saving data. Please try again.");
@@ -173,13 +176,13 @@ export default function YarnUI() {
           </div>
 
           <div>
-            <label className="font-semibold block mb-1">Width (mm)</label>
+            <label className="font-semibold block mb-1">Material</label>
             <input
               type="text"
-              placeholder="100"
+              placeholder="Innoplus"
               className="w-full p-2 border border-gray-300 rounded-lg h-10"
-              value={width}
-              onChange={(e) => handleNumberInput(e.target.value, setWidth)}
+              value={material}
+              onChange={(e) => setMaterial(e.target.value)}
               ref={(el) => setRef(el, 3)}
               onKeyDown={(e) => handleEnter(e, 3)}
             />
@@ -193,8 +196,8 @@ export default function YarnUI() {
               className="w-full p-2 border border-gray-300 rounded-lg h-10"
               value={side}
               onChange={(e) => setSide(e.target.value)}
-              ref={(el) => setRef(el, 2)}
-              onKeyDown={(e) => handleEnter(e, 2)}
+              ref={(el) => setRef(el, 4)}
+              onKeyDown={(e) => handleEnter(e, 4)}
             />
           </div>
 
@@ -206,8 +209,8 @@ export default function YarnUI() {
               className="w-full p-2 border border-gray-300 rounded-lg h-10"
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              ref={(el) => setRef(el, 3)}
-              onKeyDown={(e) => handleEnter(e, 3)}
+              ref={(el) => setRef(el, 5)}
+              onKeyDown={(e) => handleEnter(e, 5)}
             />
           </div>
 
@@ -219,8 +222,8 @@ export default function YarnUI() {
               className="w-full p-2 border border-gray-300 rounded-lg h-10"
               value={denier}
               onChange={(e) => handleNumberInput(e.target.value, setDenier)}
-              ref={(el) => setRef(el, 4)}
-              onKeyDown={(e) => handleEnter(e, 4)}
+              ref={(el) => setRef(el, 6)}
+              onKeyDown={(e) => handleEnter(e, 6)}
             />
           </div>
 
@@ -232,8 +235,8 @@ export default function YarnUI() {
               className="w-full p-2 border border-gray-300 rounded-lg h-10"
               value={machine}
               onChange={(e) => setMachine(e.target.value)}
-              ref={(el) => setRef(el, 5)}
-              onKeyDown={(e) => handleEnter(e, 5)}
+              ref={(el) => setRef(el, 7)}
+              onKeyDown={(e) => handleEnter(e, 7)}
             />
           </div>
         </div>
@@ -249,8 +252,8 @@ export default function YarnUI() {
             value={tensile}
             onChange={(e) => handleNumberInput(e.target.value, setTensile)}
             className="p-2 border border-gray-300 rounded-lg h-10"
-            ref={(el) => setRef(el, 6)}
-            onKeyDown={(e) => handleEnter(e, 6)}
+            ref={(el) => setRef(el, 8)}
+            onKeyDown={(e) => handleEnter(e, 8)}
           />
         </div>
 
@@ -264,8 +267,22 @@ export default function YarnUI() {
             value={elongation}
             onChange={(e) => handleNumberInput(e.target.value, setElongation)}
             className="p-2 border border-gray-300 rounded-lg h-10"
-            ref={(el) => setRef(el, 7)}
-            onKeyDown={(e) => handleEnter(e, 7)}
+            ref={(el) => setRef(el, 9)}
+            onKeyDown={(e) => handleEnter(e, 9)}
+          />
+        </div>
+
+        {/* Width */}
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4">
+          <label className="text-lg font-semibold text-right md:pr-4">Width (MM)</label>
+          <input
+            type="text"
+            placeholder="0.00"
+            value={width}
+            onChange={(e) => handleNumberInput(e.target.value, setWidth)}
+            className="p-2 border border-gray-300 rounded-lg h-10"
+            ref={(el) => setRef(el, 10)}
+            onKeyDown={(e) => handleEnter(e, 10)}
           />
         </div>
 
@@ -277,7 +294,7 @@ export default function YarnUI() {
             placeholder="Enter Notes Here..."
             onChange={(e) => setNotes(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg h-24 resize-none"
-            ref={(el) => setRef(el, 8)}
+            ref={(el) => setRef(el, 11)}
   onKeyDown={(e) => {
     if (e.key === "Enter") {
       e.preventDefault(); // Prevent newline

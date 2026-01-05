@@ -683,6 +683,7 @@ export const YarnScalarFieldEnum = {
   date: 'date',
   productType: 'productType',
   productID: 'productID',
+  material: 'material',
   widthMm: 'widthMm',
   side: 'side',
   time: 'time',

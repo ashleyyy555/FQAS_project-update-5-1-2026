@@ -49,6 +49,7 @@ export type YarnMinAggregateOutputType = {
   date: Date | null
   productType: string | null
   productID: string | null
+  material: string | null
   widthMm: runtime.Decimal | null
   side: string | null
   time: string | null
@@ -67,6 +68,7 @@ export type YarnMaxAggregateOutputType = {
   date: Date | null
   productType: string | null
   productID: string | null
+  material: string | null
   widthMm: runtime.Decimal | null
   side: string | null
   time: string | null
@@ -85,6 +87,7 @@ export type YarnCountAggregateOutputType = {
   date: number
   productType: number
   productID: number
+  material: number
   widthMm: number
   side: number
   time: number
@@ -123,6 +126,7 @@ export type YarnMinAggregateInputType = {
   date?: true
   productType?: true
   productID?: true
+  material?: true
   widthMm?: true
   side?: true
   time?: true
@@ -141,6 +145,7 @@ export type YarnMaxAggregateInputType = {
   date?: true
   productType?: true
   productID?: true
+  material?: true
   widthMm?: true
   side?: true
   time?: true
@@ -159,6 +164,7 @@ export type YarnCountAggregateInputType = {
   date?: true
   productType?: true
   productID?: true
+  material?: true
   widthMm?: true
   side?: true
   time?: true
@@ -264,6 +270,7 @@ export type YarnGroupByOutputType = {
   date: Date
   productType: string
   productID: string | null
+  material: string | null
   widthMm: runtime.Decimal | null
   side: string | null
   time: string | null
@@ -305,6 +312,7 @@ export type YarnWhereInput = {
   date?: Prisma.DateTimeFilter<"Yarn"> | Date | string
   productType?: Prisma.StringFilter<"Yarn"> | string
   productID?: Prisma.StringNullableFilter<"Yarn"> | string | null
+  material?: Prisma.StringNullableFilter<"Yarn"> | string | null
   widthMm?: Prisma.DecimalNullableFilter<"Yarn"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   side?: Prisma.StringNullableFilter<"Yarn"> | string | null
   time?: Prisma.StringNullableFilter<"Yarn"> | string | null
@@ -323,6 +331,7 @@ export type YarnOrderByWithRelationInput = {
   date?: Prisma.SortOrder
   productType?: Prisma.SortOrder
   productID?: Prisma.SortOrderInput | Prisma.SortOrder
+  material?: Prisma.SortOrderInput | Prisma.SortOrder
   widthMm?: Prisma.SortOrderInput | Prisma.SortOrder
   side?: Prisma.SortOrderInput | Prisma.SortOrder
   time?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -344,6 +353,7 @@ export type YarnWhereUniqueInput = Prisma.AtLeast<{
   date?: Prisma.DateTimeFilter<"Yarn"> | Date | string
   productType?: Prisma.StringFilter<"Yarn"> | string
   productID?: Prisma.StringNullableFilter<"Yarn"> | string | null
+  material?: Prisma.StringNullableFilter<"Yarn"> | string | null
   widthMm?: Prisma.DecimalNullableFilter<"Yarn"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   side?: Prisma.StringNullableFilter<"Yarn"> | string | null
   time?: Prisma.StringNullableFilter<"Yarn"> | string | null
@@ -362,6 +372,7 @@ export type YarnOrderByWithAggregationInput = {
   date?: Prisma.SortOrder
   productType?: Prisma.SortOrder
   productID?: Prisma.SortOrderInput | Prisma.SortOrder
+  material?: Prisma.SortOrderInput | Prisma.SortOrder
   widthMm?: Prisma.SortOrderInput | Prisma.SortOrder
   side?: Prisma.SortOrderInput | Prisma.SortOrder
   time?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -388,6 +399,7 @@ export type YarnScalarWhereWithAggregatesInput = {
   date?: Prisma.DateTimeWithAggregatesFilter<"Yarn"> | Date | string
   productType?: Prisma.StringWithAggregatesFilter<"Yarn"> | string
   productID?: Prisma.StringNullableWithAggregatesFilter<"Yarn"> | string | null
+  material?: Prisma.StringNullableWithAggregatesFilter<"Yarn"> | string | null
   widthMm?: Prisma.DecimalNullableWithAggregatesFilter<"Yarn"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   side?: Prisma.StringNullableWithAggregatesFilter<"Yarn"> | string | null
   time?: Prisma.StringNullableWithAggregatesFilter<"Yarn"> | string | null
@@ -405,6 +417,7 @@ export type YarnCreateInput = {
   date: Date | string
   productType: string
   productID?: string | null
+  material?: string | null
   widthMm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   side?: string | null
   time?: string | null
@@ -423,6 +436,7 @@ export type YarnUncheckedCreateInput = {
   date: Date | string
   productType: string
   productID?: string | null
+  material?: string | null
   widthMm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   side?: string | null
   time?: string | null
@@ -440,6 +454,7 @@ export type YarnUpdateInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   productType?: Prisma.StringFieldUpdateOperationsInput | string
   productID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  material?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   widthMm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   side?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -458,6 +473,7 @@ export type YarnUncheckedUpdateInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   productType?: Prisma.StringFieldUpdateOperationsInput | string
   productID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  material?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   widthMm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   side?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -476,6 +492,7 @@ export type YarnCreateManyInput = {
   date: Date | string
   productType: string
   productID?: string | null
+  material?: string | null
   widthMm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   side?: string | null
   time?: string | null
@@ -493,6 +510,7 @@ export type YarnUpdateManyMutationInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   productType?: Prisma.StringFieldUpdateOperationsInput | string
   productID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  material?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   widthMm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   side?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -511,6 +529,7 @@ export type YarnUncheckedUpdateManyInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   productType?: Prisma.StringFieldUpdateOperationsInput | string
   productID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  material?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   widthMm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   side?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -529,6 +548,7 @@ export type YarnCountOrderByAggregateInput = {
   date?: Prisma.SortOrder
   productType?: Prisma.SortOrder
   productID?: Prisma.SortOrder
+  material?: Prisma.SortOrder
   widthMm?: Prisma.SortOrder
   side?: Prisma.SortOrder
   time?: Prisma.SortOrder
@@ -556,6 +576,7 @@ export type YarnMaxOrderByAggregateInput = {
   date?: Prisma.SortOrder
   productType?: Prisma.SortOrder
   productID?: Prisma.SortOrder
+  material?: Prisma.SortOrder
   widthMm?: Prisma.SortOrder
   side?: Prisma.SortOrder
   time?: Prisma.SortOrder
@@ -574,6 +595,7 @@ export type YarnMinOrderByAggregateInput = {
   date?: Prisma.SortOrder
   productType?: Prisma.SortOrder
   productID?: Prisma.SortOrder
+  material?: Prisma.SortOrder
   widthMm?: Prisma.SortOrder
   side?: Prisma.SortOrder
   time?: Prisma.SortOrder
@@ -611,6 +633,7 @@ export type YarnSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   date?: boolean
   productType?: boolean
   productID?: boolean
+  material?: boolean
   widthMm?: boolean
   side?: boolean
   time?: boolean
@@ -629,6 +652,7 @@ export type YarnSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   date?: boolean
   productType?: boolean
   productID?: boolean
+  material?: boolean
   widthMm?: boolean
   side?: boolean
   time?: boolean
@@ -647,6 +671,7 @@ export type YarnSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   date?: boolean
   productType?: boolean
   productID?: boolean
+  material?: boolean
   widthMm?: boolean
   side?: boolean
   time?: boolean
@@ -665,6 +690,7 @@ export type YarnSelectScalar = {
   date?: boolean
   productType?: boolean
   productID?: boolean
+  material?: boolean
   widthMm?: boolean
   side?: boolean
   time?: boolean
@@ -678,7 +704,7 @@ export type YarnSelectScalar = {
   updatedAt?: boolean
 }
 
-export type YarnOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "productType" | "productID" | "widthMm" | "side" | "time" | "denier" | "machine" | "tensile" | "elongation" | "tenacity" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["yarn"]>
+export type YarnOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "productType" | "productID" | "material" | "widthMm" | "side" | "time" | "denier" | "machine" | "tensile" | "elongation" | "tenacity" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["yarn"]>
 
 export type $YarnPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Yarn"
@@ -697,6 +723,7 @@ export type $YarnPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
      * "I.D" in UI (can be alphanumeric, so keep String)
      */
     productID: string | null
+    material: string | null
     /**
      * Width (mm) - numeric, allow decimals
      */
@@ -1156,6 +1183,7 @@ export interface YarnFieldRefs {
   readonly date: Prisma.FieldRef<"Yarn", 'DateTime'>
   readonly productType: Prisma.FieldRef<"Yarn", 'String'>
   readonly productID: Prisma.FieldRef<"Yarn", 'String'>
+  readonly material: Prisma.FieldRef<"Yarn", 'String'>
   readonly widthMm: Prisma.FieldRef<"Yarn", 'Decimal'>
   readonly side: Prisma.FieldRef<"Yarn", 'String'>
   readonly time: Prisma.FieldRef<"Yarn", 'String'>
