@@ -353,7 +353,7 @@ export default function SearchPage() {
 
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-6">
-      <h1 className="text-3xl font-extrabold text-gray-900">Yarn Search</h1>
+      <h1 className="text-3xl font-extrabold text-gray-900">Yarn QA Search</h1>
 
       {/* Filters */}
       <div className="bg-white p-6 rounded-xl shadow border space-y-4">

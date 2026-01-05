@@ -53,10 +53,9 @@ const getCurrentDate = () => new Date().toISOString().split("T")[0];
 // Small helper for UI rendering
 const toDisplayDate = (v: any) => {
   if (!v) return "";
-  const d = new Date(v);
-  if (Number.isNaN(d.getTime())) return "";
-  return d.toISOString().split("T")[0].replace(/-/g, "/");
+  return String(v).slice(0, 10); // YYYY-MM-DD
 };
+
 
 export default function SearchPage() {
   const [startDate, setStartDate] = useState(getCurrentDate());
@@ -285,8 +284,9 @@ export default function SearchPage() {
 
       const current = fetched.data;
       const dateForInput = current.testDate
-        ? new Date(current.testDate).toISOString().split("T")[0]
-        : "";
+  ? String(current.testDate).slice(0, 10)
+  : "";
+
 
       setEditingRow(current);
       setEditForm({
