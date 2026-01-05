@@ -1,0 +1,841 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/client"
+  entrypoints = ["client", "database"]
+}
+
+datasource db {
+  provider = "postgresql"
+  
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model User {
+  id           String    @id @default(cuid())
+  passwordHash String
+  username     String    @unique
+  isAdmin      Boolean   @default(false)
+  accounts     Account[]
+  sessions     Session[]
+}
+
+
+
+// --- Packaging QA models ---
+model Packaging {
+  id                 Int      @id @default(autoincrement())
+  testDate           DateTime
+
+  // from UI: productType and productID
+  productType        String
+  productID          String
+
+  // NEW FIELDS
+  construction       String?
+  denier             Float?
+  color              String?
+  additionalFeatures String?
+
+  // existing metrics
+  grammage           Float?
+  tensileMD          Float?
+  tensileCD          Float?
+  elongationMD       Float?
+  elongationCD       Float?
+
+  // tubing metrics (NEW)
+  tubingTensile      Float?
+  tubingElongation   Float?
+  tubingPeelPeak     Float?
+  tubingPeelAvg      Float?
+
+  notes              String?
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("packaging")
+  @@index([testDate])
+  @@index([productType])
+}
+
+
+
+
+
+// --- IL QA models ---
+
+model LaminationBubbleFoamBubble {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  category  String
+  range     String?
+  product   String
+  productID String
+
+  grammage Float?
+
+  tensileMD   Float?
+  tensileCD   Float?
+  tensileUnit String?
+
+  elongationMD Float?
+  elongationCD Float?
+
+  tongueTearMD Float?
+  tongueTearCD Float?
+
+  nailShankMD Float?
+  nailShankCD Float?
+
+  tearStrengthMD Float?
+  tearStrengthCD Float?
+
+  bondStrengthMD  Float?
+  bondStrengthCD  Float?
+  bondStrength2MD Float?
+  bondStrength2CD Float?
+
+  adhesiveMD  Float?
+  adhesiveCD  Float?
+  adhesive2MD Float?
+  adhesive2CD Float?
+
+  tearResistanceMD Float?
+  tearResistanceCD Float?
+
+  staplerTestMD Float?
+  staplerTestCD Float?
+
+  emissivityAlum1 Float?
+  emissivityAlum2 Float?
+  emissivityMPET  Float?
+
+  sewingMD Float?
+  sewingCD Float?
+
+  thickness Float?
+  wVTR      Float?
+
+  bS476i1 Float?
+  bS476i2 Float?
+  bS476i3 Float?
+
+  // keep if these are computed/readonly fields
+  tearPropagationMD Float?
+  tearPropagationCD Float?
+  bs476I            Float?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lamination_bubble_foam_bubble")
+}
+
+model LaminationBubbleFoil {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  category  String
+  range     String?
+  product   String
+  productID String
+
+  grammage Float?
+
+  tensileMD   Float?
+  tensileCD   Float?
+  tensileUnit String?
+
+  elongationMD Float?
+  elongationCD Float?
+
+  tongueTearMD Float?
+  tongueTearCD Float?
+
+  nailShankMD Float?
+  nailShankCD Float?
+
+  tearStrengthMD Float?
+  tearStrengthCD Float?
+
+  bondStrengthMD  Float?
+  bondStrengthCD  Float?
+  bondStrength2MD Float?
+  bondStrength2CD Float?
+
+  adhesiveMD  Float?
+  adhesiveCD  Float?
+  adhesive2MD Float?
+  adhesive2CD Float?
+
+  tearResistanceMD Float?
+  tearResistanceCD Float?
+
+  staplerTestMD Float?
+  staplerTestCD Float?
+
+  emissivityAlum1 Float?
+  emissivityAlum2 Float?
+  emissivityMPET  Float?
+
+  sewingMD Float?
+  sewingCD Float?
+
+  thickness Float?
+  wVTR      Float?
+
+  bS476i1 Float?
+  bS476i2 Float?
+  bS476i3 Float?
+
+  tearPropagationMD Float?
+  tearPropagationCD Float?
+  bs476I            Float?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lamination_bubble_foil")
+}
+
+model LaminationFilmFoilAlumFGlass {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  category  String
+  range     String?
+  product   String
+  productID String
+
+  grammage Float?
+
+  tensileMD   Float?
+  tensileCD   Float?
+  tensileUnit String?
+
+  elongationMD Float?
+  elongationCD Float?
+
+  tongueTearMD Float?
+  tongueTearCD Float?
+
+  nailShankMD Float?
+  nailShankCD Float?
+
+  tearStrengthMD Float?
+  tearStrengthCD Float?
+
+  bondStrengthMD  Float?
+  bondStrengthCD  Float?
+  bondStrength2MD Float?
+  bondStrength2CD Float?
+
+  adhesiveMD  Float?
+  adhesiveCD  Float?
+  adhesive2MD Float?
+  adhesive2CD Float?
+
+  tearResistanceMD Float?
+  tearResistanceCD Float?
+
+  staplerTestMD Float?
+  staplerTestCD Float?
+
+  emissivityAlum1 Float?
+  emissivityAlum2 Float?
+  emissivityMPET  Float?
+
+  sewingMD Float?
+  sewingCD Float?
+
+  thickness Float?
+  wVTR      Float?
+
+  bS476i1 Float?
+  bS476i2 Float?
+  bS476i3 Float?
+
+  tearPropagationMD Float?
+  tearPropagationCD Float?
+  bs476I            Float?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lamination_film_foil_alum_fglass")
+}
+
+model LaminationLeno {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  category  String
+  range     String?
+  product   String
+  productID String
+
+  grammage Float?
+
+  tensileMD   Float?
+  tensileCD   Float?
+  tensileUnit String?
+
+  elongationMD Float?
+  elongationCD Float?
+
+  tongueTearMD Float?
+  tongueTearCD Float?
+
+  nailShankMD Float?
+  nailShankCD Float?
+
+  tearStrengthMD Float?
+  tearStrengthCD Float?
+
+  bondStrengthMD  Float?
+  bondStrengthCD  Float?
+  bondStrength2MD Float?
+  bondStrength2CD Float?
+
+  adhesiveMD  Float?
+  adhesiveCD  Float?
+  adhesive2MD Float?
+  adhesive2CD Float?
+
+  tearResistanceMD Float?
+  tearResistanceCD Float?
+
+  staplerTestMD Float?
+  staplerTestCD Float?
+
+  emissivityAlum1 Float?
+  emissivityAlum2 Float?
+  emissivityMPET  Float?
+
+  sewingMD Float?
+  sewingCD Float?
+
+  thickness Float?
+  wVTR      Float?
+
+  bS476i1 Float?
+  bS476i2 Float?
+  bS476i3 Float?
+
+  tearPropagationMD Float?
+  tearPropagationCD Float?
+  bs476I            Float?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lamination_leno")
+}
+
+model LaminationMs2095 {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  category  String
+  range     String?
+  product   String
+  productID String
+
+  grammage Float?
+
+  tensileMD   Float?
+  tensileCD   Float?
+  tensileUnit String?
+
+  elongationMD Float?
+  elongationCD Float?
+
+  tongueTearMD Float?
+  tongueTearCD Float?
+
+  nailShankMD Float?
+  nailShankCD Float?
+
+  tearStrengthMD Float?
+  tearStrengthCD Float?
+
+  bondStrengthMD  Float?
+  bondStrengthCD  Float?
+  bondStrength2MD Float?
+  bondStrength2CD Float?
+
+  adhesiveMD  Float?
+  adhesiveCD  Float?
+  adhesive2MD Float?
+  adhesive2CD Float?
+
+  tearResistanceMD Float?
+  tearResistanceCD Float?
+
+  staplerTestMD Float?
+  staplerTestCD Float?
+
+  emissivityAlum1 Float?
+  emissivityAlum2 Float?
+  emissivityMPET  Float?
+
+  sewingMD Float?
+  sewingCD Float?
+
+  thickness Float?
+  wVTR      Float?
+
+  bS476i1 Float?
+  bS476i2 Float?
+  bS476i3 Float?
+
+  tearPropagationMD Float?
+  tearPropagationCD Float?
+  bs476I            Float?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lamination_ms2095")
+}
+
+model LaminationNonWoven {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  category  String
+  range     String?
+  product   String
+  productID String
+
+  grammage Float?
+
+  tensileMD   Float?
+  tensileCD   Float?
+  tensileUnit String?
+
+  elongationMD Float?
+  elongationCD Float?
+
+  tongueTearMD Float?
+  tongueTearCD Float?
+
+  nailShankMD Float?
+  nailShankCD Float?
+
+  tearStrengthMD Float?
+  tearStrengthCD Float?
+
+  bondStrengthMD  Float?
+  bondStrengthCD  Float?
+  bondStrength2MD Float?
+  bondStrength2CD Float?
+
+  adhesiveMD  Float?
+  adhesiveCD  Float?
+  adhesive2MD Float?
+  adhesive2CD Float?
+
+  tearResistanceMD Float?
+  tearResistanceCD Float?
+
+  staplerTestMD Float?
+  staplerTestCD Float?
+
+  emissivityAlum1 Float?
+  emissivityAlum2 Float?
+  emissivityMPET  Float?
+
+  sewingMD Float?
+  sewingCD Float?
+
+  thickness Float?
+  wVTR      Float?
+
+  bS476i1 Float?
+  bS476i2 Float?
+  bS476i3 Float?
+
+  tearPropagationMD Float?
+  tearPropagationCD Float?
+  bs476I            Float?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lamination_non_woven")
+}
+
+model LaminationPaperFoil {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  category  String
+  range     String?
+  product   String
+  productID String
+
+  grammage Float?
+
+  tensileMD   Float?
+  tensileCD   Float?
+  tensileUnit String?
+
+  elongationMD Float?
+  elongationCD Float?
+
+  tongueTearMD Float?
+  tongueTearCD Float?
+
+  nailShankMD Float?
+  nailShankCD Float?
+
+  tearStrengthMD Float?
+  tearStrengthCD Float?
+
+  bondStrengthMD  Float?
+  bondStrengthCD  Float?
+  bondStrength2MD Float?
+  bondStrength2CD Float?
+
+  adhesiveMD  Float?
+  adhesiveCD  Float?
+  adhesive2MD Float?
+  adhesive2CD Float?
+
+  tearResistanceMD Float?
+  tearResistanceCD Float?
+
+  staplerTestMD Float?
+  staplerTestCD Float?
+
+  emissivityAlum1 Float?
+  emissivityAlum2 Float?
+  emissivityMPET  Float?
+
+  sewingMD Float?
+  sewingCD Float?
+
+  thickness Float?
+  wVTR      Float?
+
+  bS476i1 Float?
+  bS476i2 Float?
+  bS476i3 Float?
+
+  tearPropagationMD Float?
+  tearPropagationCD Float?
+  bs476I            Float?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lamination_paper_foil")
+}
+
+model LaminationRadiantBarrier {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  category  String
+  range     String?
+  product   String
+  productID String
+
+  grammage Float?
+
+  tensileMD   Float?
+  tensileCD   Float?
+  tensileUnit String?
+
+  elongationMD Float?
+  elongationCD Float?
+
+  tongueTearMD Float?
+  tongueTearCD Float?
+
+  nailShankMD Float?
+  nailShankCD Float?
+
+  tearStrengthMD Float?
+  tearStrengthCD Float?
+
+  bondStrengthMD  Float?
+  bondStrengthCD  Float?
+  bondStrength2MD Float?
+  bondStrength2CD Float?
+
+  adhesiveMD  Float?
+  adhesiveCD  Float?
+  adhesive2MD Float?
+  adhesive2CD Float?
+
+  tearResistanceMD Float?
+  tearResistanceCD Float?
+
+  staplerTestMD Float?
+  staplerTestCD Float?
+
+  emissivityAlum1 Float?
+  emissivityAlum2 Float?
+  emissivityMPET  Float?
+
+  sewingMD Float?
+  sewingCD Float?
+
+  thickness Float?
+  wVTR      Float?
+
+  bS476i1 Float?
+  bS476i2 Float?
+  bS476i3 Float?
+
+  tearPropagationMD Float?
+  tearPropagationCD Float?
+  bs476I            Float?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lamination_radiant_barrier")
+}
+
+model LaminationUltraFoil {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  category  String
+  range     String?
+  product   String
+  productID String
+
+  grammage Float?
+
+  tensileMD   Float?
+  tensileCD   Float?
+  tensileUnit String?
+
+  elongationMD Float?
+  elongationCD Float?
+
+  tongueTearMD Float?
+  tongueTearCD Float?
+
+  nailShankMD Float?
+  nailShankCD Float?
+
+  tearStrengthMD Float?
+  tearStrengthCD Float?
+
+  bondStrengthMD  Float?
+  bondStrengthCD  Float?
+  bondStrength2MD Float?
+  bondStrength2CD Float?
+
+  adhesiveMD  Float?
+  adhesiveCD  Float?
+  adhesive2MD Float?
+  adhesive2CD Float?
+
+  tearResistanceMD Float?
+  tearResistanceCD Float?
+
+  staplerTestMD Float?
+  staplerTestCD Float?
+
+  emissivityAlum1 Float?
+  emissivityAlum2 Float?
+  emissivityMPET  Float?
+
+  sewingMD Float?
+  sewingCD Float?
+
+  thickness Float?
+  wVTR      Float?
+
+  bS476i1 Float?
+  bS476i2 Float?
+  bS476i3 Float?
+
+  tearPropagationMD Float?
+  tearPropagationCD Float?
+  bs476I            Float?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lamination_ultra_foil")
+}
+
+model LaminationWrapper {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @db.Date
+  category  String
+  range     String?
+  product   String
+  productID String
+
+  grammage Float?
+
+  tensileMD   Float?
+  tensileCD   Float?
+  tensileUnit String?
+
+  elongationMD Float?
+  elongationCD Float?
+
+  tongueTearMD Float?
+  tongueTearCD Float?
+
+  nailShankMD Float?
+  nailShankCD Float?
+
+  tearStrengthMD Float?
+  tearStrengthCD Float?
+
+  bondStrengthMD  Float?
+  bondStrengthCD  Float?
+  bondStrength2MD Float?
+  bondStrength2CD Float?
+
+  adhesiveMD  Float?
+  adhesiveCD  Float?
+  adhesive2MD Float?
+  adhesive2CD Float?
+
+  tearResistanceMD Float?
+  tearResistanceCD Float?
+
+  staplerTestMD Float?
+  staplerTestCD Float?
+
+  emissivityAlum1 Float?
+  emissivityAlum2 Float?
+  emissivityMPET  Float?
+
+  sewingMD Float?
+  sewingCD Float?
+
+  thickness Float?
+  wVTR      Float?
+
+  bS476i1 Float?
+  bS476i2 Float?
+  bS476i3 Float?
+
+  tearPropagationMD Float?
+  tearPropagationCD Float?
+  bs476I            Float?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lamination_wrapper")
+}
+
+
+
+
+
+// --- QA models ---
+
+model Yarn {
+  id            Int      @id @default(autoincrement())
+
+  /// Date user selects in the UI (YYYY-MM-DD). Store as DateTime.
+  date          DateTime @db.Date
+
+  /// "PP", etc.
+  productType   String   @db.VarChar(50)
+
+  /// "I.D" in UI (can be alphanumeric, so keep String)
+  productID     String?  @db.VarChar(50)
+
+  /// Width (mm) - numeric, allow decimals
+  widthMm       Decimal? @db.Decimal(10, 2)
+
+  /// Side (e.g., A/B)
+  side        String?  @db.VarChar(10)
+
+  /// Time (e.g., AM/PM) or shift code
+  time        String?  @db.VarChar(10)
+
+  /// Denier - numeric, allow decimals
+  denier        Decimal? @db.Decimal(10, 2)
+
+  /// Machine name / code
+  machine       String?  @db.VarChar(50)
+
+  /// Strength values (N/50mm)
+  tensile     Decimal? @db.Decimal(10, 2)
+  
+  /// Elongation values (%)
+  elongation  Decimal? @db.Decimal(10, 2)
+
+  // tensile/denier
+  tenacity    Decimal? @db.Decimal(10, 3)
+  
+  notes         String?  @db.Text
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([date])
+  @@index([productType])
+  @@index([productID])
+  @@index([machine])
+  @@index([side])
+  @@index([time])
+}
+
+
+
+
+
+
