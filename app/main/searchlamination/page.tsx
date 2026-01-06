@@ -144,13 +144,19 @@ const isOutOfRange = (
     }
   };
 
-  // --- Export to Excel (Lamination, ALL centered) ---
-  // --- Export to Excel (Lamination + export raw data analysis highlighting) ---
+  // --- Export to Excel (Lamination + export raw data analysis highlighting + SAFE date export) ---
   const handleExport = async () => {
-    if (searchResults.length === 0) return;
+    if (searchResults.length === 0 || dynamicHeaders.length === 0) return;
 
     setIsExporting(true);
     setErrorMessage("");
+
+    // ✅ Export the UI date (string) to avoid timezone shift (minus 1 day)
+    const toYMD = (v: any) => {
+      if (!v) return "";
+      // supports "YYYY-MM-DD" or ISO timestamp "YYYY-MM-DDTHH:mm:ss..."
+      return String(v).slice(0, 10); // "YYYY-MM-DD"
+    };
 
     try {
       const workbook = new ExcelJS.Workbook();
@@ -159,22 +165,26 @@ const isOutOfRange = (
       const colCount = dynamicHeaders.length;
       const titleText = `Lamination Results (${startDate} to ${endDate})`;
 
-      const THIN_BORDER: Partial<ExcelJS.Borders> = {
-      top: { style: "thin" as ExcelJS.BorderStyle },
-      left: { style: "thin" as ExcelJS.BorderStyle },
-      bottom: { style: "thin" as ExcelJS.BorderStyle },
-      right: { style: "thin" as ExcelJS.BorderStyle },
-      };    
+      // ✅ Fix TS red squiggles for border style
+      const thin = "thin" as ExcelJS.BorderStyle;
 
+      const THIN_BORDER: Partial<ExcelJS.Borders> = {
+        top: { style: thin },
+        left: { style: thin },
+        bottom: { style: thin },
+        right: { style: thin },
+      };
 
       // Raw data analysis highlight style (match UI "text-red-600 bg-red-50" vibe)
-      const OUT_OF_RANGE_STYLE = {
-        font: { color: { argb: "FFB91C1C" }, bold: true }, // red-ish
-        fill: {
-          type: "pattern" as const,
-          pattern: "solid" as const,
-          fgColor: { argb: "FFFFEBEE" }, // very light red background
-        },
+      const OUT_OF_RANGE_FONT: Partial<ExcelJS.Font> = {
+        color: { argb: "FFB91C1C" },
+        bold: true,
+      };
+
+      const OUT_OF_RANGE_FILL: ExcelJS.Fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFFFEBEE" },
       };
 
       /* -------------------- 1) Title row -------------------- */
@@ -196,28 +206,27 @@ const isOutOfRange = (
 
       /* -------------------- 2) Header row -------------------- */
       const headerRow = ws.addRow(dynamicHeaders.map((h) => h.label));
-      headerRow.eachCell((cell) => {
+
+      // ✅ IMPORTANT: style ALL header cells (even if some are "empty")
+      for (let c = 1; c <= colCount; c++) {
+        const cell = headerRow.getCell(c);
         cell.font = { bold: true };
-        cell.alignment = {
-          horizontal: "center",
-          vertical: "middle",
-          wrapText: true,
-        };
+        cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
         cell.fill = {
           type: "pattern",
           pattern: "solid",
           fgColor: { argb: "FFBDD7EE" },
         };
         cell.border = THIN_BORDER;
-      });
+      }
 
       /* -------------------- 3) Data rows -------------------- */
       searchResults.forEach((row) => {
         const rowValues = dynamicHeaders.map((h) => {
           const value = row[h.key];
 
-          // Date handling
-          if (h.type === "date" && value) return new Date(value);
+          // ✅ Date handling: export UI date string to prevent timezone -1 day
+          if (h.type === "date" && value) return toYMD(value);
 
           // Numeric handling
           if (h.type === "number") {
@@ -231,26 +240,25 @@ const isOutOfRange = (
 
         const dataRow = ws.addRow(rowValues);
 
-        dataRow.eachCell((cell, colNumber) => {
-          const h = dynamicHeaders[colNumber - 1];
+        // ✅ IMPORTANT: style ALL cells by looping columns (prevents missing borders)
+        for (let c = 1; c <= colCount; c++) {
+          const cell = dataRow.getCell(c);
+          const h = dynamicHeaders[c - 1];
+
+          // Center everything
+          cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
+
+          // Borders
+          cell.border = THIN_BORDER;
 
           // Formats
-          if (h?.type === "date" && cell.value instanceof Date) {
-            cell.numFmt = "yyyy-mm-dd";
+          if (h?.type === "date") {
+            // ✅ treat as TEXT so Excel won't interpret/shift timezone
+            cell.numFmt = "@";
           }
           if (h?.type === "number") {
             cell.numFmt = "0.00";
           }
-
-          // Center everything
-          cell.alignment = {
-            horizontal: "center",
-            vertical: "middle",
-            wrapText: true,
-          };
-
-          // Borders
-          cell.border = THIN_BORDER;
 
           // ✅ Apply raw data analysis highlight (same logic as UI)
           if (h?.type === "number") {
@@ -258,15 +266,12 @@ const isOutOfRange = (
             const min = ranges[`${h.key}Min`];
             const max = ranges[`${h.key}Max`];
 
-            // Use the ORIGINAL row value for range test (safer than cell.value conversions)
-            const out = isOutOfRange(row[h.key], enabled, min, max);
-
-            if (out) {
-              cell.font = { ...(cell.font ?? {}), ...OUT_OF_RANGE_STYLE.font };
-              cell.fill = OUT_OF_RANGE_STYLE.fill;
+            if (isOutOfRange(row[h.key], enabled, min, max)) {
+              cell.font = { ...(cell.font ?? {}), ...OUT_OF_RANGE_FONT };
+              cell.fill = OUT_OF_RANGE_FILL;
             }
           }
-        });
+        }
       });
 
       /* -------------------- 4) Auto-fit columns -------------------- */
@@ -275,7 +280,7 @@ const isOutOfRange = (
 
         col.eachCell({ includeEmpty: true }, (cell: any) => {
           const v = cell.value;
-          const text = v instanceof Date ? "yyyy-mm-dd" : v == null ? "" : String(v);
+          const text = v == null ? "" : String(v);
           maxLength = Math.max(maxLength, text.length + 1);
         });
 
@@ -301,6 +306,7 @@ const isOutOfRange = (
       setIsExporting(false);
     }
   };
+
 
 
   // --- Edit load ---

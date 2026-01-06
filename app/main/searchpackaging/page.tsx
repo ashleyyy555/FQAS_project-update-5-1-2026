@@ -179,7 +179,7 @@ const updateRange = (key: keyof typeof ranges, value: string) => {
   };
 
   
-  // --- Export to Excel (enhanced + ALL centered) ---
+  // --- Export to Excel (enhanced + ALL centered + export raw data analysis highlighting) ---
   const handleExport = async () => {
     if (searchResults.length === 0) return;
 
@@ -192,6 +192,28 @@ const updateRange = (key: keyof typeof ranges, value: string) => {
 
       const headersNoActions = HEADERS.filter((h) => h.key !== "actions");
       const colCount = headersNoActions.length;
+
+      // ✅ Fix TS red squiggles for border style
+      const thin = "thin" as ExcelJS.BorderStyle;
+
+      const THIN_BORDER: Partial<ExcelJS.Borders> = {
+        top: { style: thin },
+        left: { style: thin },
+        bottom: { style: thin },
+        right: { style: thin },
+      };
+
+      // ✅ Out-of-range style (match UI red text + light red bg)
+      const OUT_OF_RANGE_FONT: Partial<ExcelJS.Font> = {
+        color: { argb: "FFB91C1C" },
+        bold: true,
+      };
+
+      const OUT_OF_RANGE_FILL: ExcelJS.Fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFFFEBEE" },
+      };
 
       // 1) Title row
       const title = `Packaging Summary (${startDate} to ${endDate})`;
@@ -215,19 +237,22 @@ const updateRange = (key: keyof typeof ranges, value: string) => {
         wrapText: true,
       };
 
-      headerRow.eachCell((cell) => {
+      // ✅ ensure header border applies to all header cells
+      for (let c = 1; c <= colCount; c++) {
+        const cell = headerRow.getCell(c);
         cell.fill = {
           type: "pattern",
           pattern: "solid",
-          fgColor: { argb: "FFE5E7EB" }, // light gray
+          fgColor: { argb: "FFE5E7EB" },
         };
-        cell.border = {
-          top: { style: "thin" },
-          left: { style: "thin" },
-          bottom: { style: "thin" },
-          right: { style: "thin" },
+        cell.border = THIN_BORDER;
+        cell.alignment = {
+          horizontal: "center",
+          vertical: "middle",
+          wrapText: true,
         };
-      });
+        cell.font = { bold: true };
+      }
 
       // 3) Data rows
       searchResults.forEach((row) => {
@@ -235,10 +260,11 @@ const updateRange = (key: keyof typeof ranges, value: string) => {
           const key = h.key as string;
           const value = row[key];
 
-          // Date: keep as Date object for Excel formatting
-          if (key === "testDate" && value) return new Date(value);
+          // Date
+          if (key === "testDate" && value) return toDisplayDate(value); // "YYYY-MM-DD"
 
-          // Numeric: convert to number (or null)
+
+          // Numeric
           if (NUMERIC_KEYS.has(key)) {
             if (value == null || value === "") return null;
             const n = Number(value);
@@ -250,32 +276,43 @@ const updateRange = (key: keyof typeof ranges, value: string) => {
 
         const excelRow = ws.addRow(values);
 
-        excelRow.eachCell((cell, colNumber) => {
-          const key = headersNoActions[colNumber - 1]?.key as string;
+        // ✅ IMPORTANT: style ALL cells (even empty ones), so borders never miss
+        for (let c = 1; c <= colCount; c++) {
+          const cell = excelRow.getCell(c);
+          const key = headersNoActions[c - 1]?.key as string;
 
           // Borders
-          cell.border = {
-            top: { style: "thin" },
-            left: { style: "thin" },
-            bottom: { style: "thin" },
-            right: { style: "thin" },
-          };
+          cell.border = THIN_BORDER;
 
-          // Formats
-          if (key === "testDate" && cell.value instanceof Date) {
-            cell.numFmt = "yyyy-mm-dd";
-          }
-          if (NUMERIC_KEYS.has(key)) {
-            cell.numFmt = "0.00";
-          }
-
-          // ✅ Center EVERYTHING
+          // Center
           cell.alignment = {
             horizontal: "center",
             vertical: "middle",
             wrapText: true,
           };
-        });
+
+          // Formats
+          if (key === "testDate") {
+            // treat as TEXT to avoid timezone shifting
+            cell.numFmt = "@";
+          }
+
+          if (NUMERIC_KEYS.has(key)) {
+            cell.numFmt = "0.00";
+          }
+
+          // ✅ Apply raw data analysis highlight
+          if (NUMERIC_KEYS.has(key)) {
+            const enabled = !!(rangeEnabled as any)[key];
+            const min = (ranges as any)[`${key}Min`];
+            const max = (ranges as any)[`${key}Max`];
+
+            if (isOutOfRange(row[key], enabled, min, max)) {
+              cell.font = { ...(cell.font ?? {}), ...OUT_OF_RANGE_FONT };
+              cell.fill = OUT_OF_RANGE_FILL;
+            }
+          }
+        }
       });
 
       // 4) Auto-fit columns
@@ -292,6 +329,7 @@ const updateRange = (key: keyof typeof ranges, value: string) => {
         col.width = Math.min(Math.max(maxLength, 8), 18);
       });
 
+      // Export
       const buffer = await workbook.xlsx.writeBuffer();
       const blob = new Blob([buffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -310,6 +348,8 @@ const updateRange = (key: keyof typeof ranges, value: string) => {
       setIsExporting(false);
     }
   };
+
+
 
   
 
