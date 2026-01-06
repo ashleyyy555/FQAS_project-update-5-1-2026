@@ -141,7 +141,7 @@ export default function SearchPage() {
     }
   };
 
-  // --- Export to Excel (date forced to "YYYY-MM-DD" string) ---
+  // --- Export to Excel (Yarn QA + ALL centered + full borders + raw data analysis highlight + SAFE date export) ---
   const handleExport = async () => {
     if (searchResults.length === 0) return;
 
@@ -155,7 +155,39 @@ export default function SearchPage() {
       const headersNoActions = HEADERS.filter((h) => h.key !== "actions");
       const colCount = headersNoActions.length;
 
-      // 1) Title row
+      // ✅ Fix TS squiggles
+      const thin = "thin" as ExcelJS.BorderStyle;
+
+      const THIN_BORDER: Partial<ExcelJS.Borders> = {
+        top: { style: thin },
+        left: { style: thin },
+        bottom: { style: thin },
+        right: { style: thin },
+      };
+
+      // ✅ Out-of-range style (match UI red text + light red bg)
+      const OUT_OF_RANGE_FONT: Partial<ExcelJS.Font> = {
+        color: { argb: "FFB91C1C" },
+        bold: true,
+      };
+
+      const OUT_OF_RANGE_FILL: ExcelJS.Fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFFFEBEE" },
+      };
+
+      // ✅ Helper: map ranges for each field (based on your state keys)
+      const RANGE_MAP: Record<
+        string,
+        { minKey: keyof typeof ranges; maxKey: keyof typeof ranges }
+      > = {
+        tensile: { minKey: "tensileMin", maxKey: "tensileMax" },
+        elongation: { minKey: "elongationMin", maxKey: "elongationMax" },
+        widthMm: { minKey: "widthMin", maxKey: "widthMax" }, // UI uses widthMin/widthMax but data key is widthMm
+      };
+
+      /* -------------------- 1) Title row -------------------- */
       const title = `Yarn(QA) Summary (${startDate} to ${endDate})`;
       ws.addRow([title]);
       ws.mergeCells(1, 1, 1, colCount);
@@ -165,42 +197,35 @@ export default function SearchPage() {
       titleCell.alignment = { horizontal: "center", vertical: "middle" };
       ws.getRow(1).height = 24;
 
-      // Spacer row
+      /* -------------------- Spacer row -------------------- */
       ws.addRow([]);
 
-      // 2) Header row
+      /* -------------------- 2) Header row -------------------- */
       const headerRow = ws.addRow(headersNoActions.map((h) => h.label));
-      headerRow.font = { bold: true };
-      headerRow.alignment = {
-        horizontal: "center",
-        vertical: "middle",
-        wrapText: true,
-      };
 
-      headerRow.eachCell((cell) => {
+      // ✅ IMPORTANT: style ALL header cells (full borders always)
+      for (let c = 1; c <= colCount; c++) {
+        const cell = headerRow.getCell(c);
+        cell.font = { bold: true };
+        cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
         cell.fill = {
           type: "pattern",
           pattern: "solid",
           fgColor: { argb: "FFE5E7EB" }, // light gray
         };
-        cell.border = {
-          top: { style: "thin" },
-          left: { style: "thin" },
-          bottom: { style: "thin" },
-          right: { style: "thin" },
-        };
-      });
+        cell.border = THIN_BORDER;
+      }
 
-      // 3) Data rows
+      /* -------------------- 3) Data rows -------------------- */
       searchResults.forEach((row) => {
         const values = headersNoActions.map((h) => {
           const key = h.key as string;
           const value = row[key];
 
-          // ✅ Force exported date to be plain "YYYY-MM-DD" string
+          // ✅ Export date as TEXT "YYYY-MM-DD" (prevents timezone -1 day)
           if (key === "date") return toISODateOnly(value);
 
-          // Numeric: convert to number (or null)
+          // Numeric columns
           if (NUMERIC_KEYS.has(key)) {
             if (value == null || value === "") return null;
             const n = Number(value);
@@ -212,33 +237,42 @@ export default function SearchPage() {
 
         const excelRow = ws.addRow(values);
 
-        excelRow.eachCell((cell, colNumber) => {
-          const key = headersNoActions[colNumber - 1]?.key as string;
+        // ✅ IMPORTANT: style ALL cells by looping columns (borders never missing)
+        for (let c = 1; c <= colCount; c++) {
+          const cell = excelRow.getCell(c);
+          const key = headersNoActions[c - 1]?.key as string;
 
-          // Borders
-          cell.border = {
-            top: { style: "thin" },
-            left: { style: "thin" },
-            bottom: { style: "thin" },
-            right: { style: "thin" },
-          };
-
-          // Formats
-          // ✅ Date is string now, so do NOT apply date numFmt
-          if (NUMERIC_KEYS.has(key)) {
-            cell.numFmt = "0.00";
-          }
-
-          // Center everything
+          // Border + alignment
+          cell.border = THIN_BORDER;
           cell.alignment = {
             horizontal: "center",
             vertical: "middle",
             wrapText: true,
           };
-        });
+
+          // Formats
+          if (key === "date") {
+            // keep as text (you already export string)
+            cell.numFmt = "@";
+          } else if (NUMERIC_KEYS.has(key)) {
+            cell.numFmt = "0.00";
+          }
+
+          // ✅ Raw data analysis highlight (same logic as UI)
+          const map = RANGE_MAP[key];
+          if (map) {
+            const min = ranges[map.minKey];
+            const max = ranges[map.maxKey];
+
+            if (isOutOfRange(row[key], min, max)) {
+              cell.font = { ...(cell.font ?? {}), ...OUT_OF_RANGE_FONT };
+              cell.fill = OUT_OF_RANGE_FILL;
+            }
+          }
+        }
       });
 
-      // 4) Auto-fit columns
+      /* -------------------- 4) Auto-fit columns -------------------- */
       ws.columns.forEach((col: any) => {
         let maxLength = 8;
 
@@ -251,6 +285,7 @@ export default function SearchPage() {
         col.width = Math.min(Math.max(maxLength, 8), 18);
       });
 
+      /* -------------------- Export -------------------- */
       const buffer = await workbook.xlsx.writeBuffer();
       const blob = new Blob([buffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -269,6 +304,7 @@ export default function SearchPage() {
       setIsExporting(false);
     }
   };
+
 
   const handleEdit = async (row: any) => {
     if (!row?.id) return;
