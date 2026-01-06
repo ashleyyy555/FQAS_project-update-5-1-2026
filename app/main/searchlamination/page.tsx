@@ -83,6 +83,35 @@ export default function SearchPage() {
 
   const disableActions = isSearching || isExporting || isMutating;
 
+  const [rangeEnabled, setRangeEnabled] = useState<Record<string, boolean>>({});
+  const [ranges, setRanges] = useState<Record<string, string>>({});
+
+  const toggleRange = (key: string) => {
+  setRangeEnabled((prev) => ({ ...prev, [key]: !prev[key] }));
+};
+
+const updateRange = (key: string, value: string) => {
+  setRanges((prev) => ({ ...prev, [key]: value }));
+};
+
+const isOutOfRange = (
+  value: any,
+  enabled?: boolean,
+  min?: string,
+  max?: string
+) => {
+  if (!enabled) return false;
+  if (value == null || value === "") return false;
+
+  const num = Number(value);
+  if (!Number.isFinite(num)) return false;
+
+  if (min !== "" && min != null && num < Number(min)) return true;
+  if (max !== "" && max != null && num > Number(max)) return true;
+
+  return false;
+};
+
   // --- Search ---
   const handleSearch = async () => {
     setIsSearching(true);
@@ -116,6 +145,7 @@ export default function SearchPage() {
   };
 
   // --- Export to Excel (Lamination, ALL centered) ---
+  // --- Export to Excel (Lamination + export raw data analysis highlighting) ---
   const handleExport = async () => {
     if (searchResults.length === 0) return;
 
@@ -129,16 +159,31 @@ export default function SearchPage() {
       const colCount = dynamicHeaders.length;
       const titleText = `Lamination Results (${startDate} to ${endDate})`;
 
+      const THIN_BORDER: Partial<ExcelJS.Borders> = {
+      top: { style: "thin" as ExcelJS.BorderStyle },
+      left: { style: "thin" as ExcelJS.BorderStyle },
+      bottom: { style: "thin" as ExcelJS.BorderStyle },
+      right: { style: "thin" as ExcelJS.BorderStyle },
+      };    
+
+
+      // Raw data analysis highlight style (match UI "text-red-600 bg-red-50" vibe)
+      const OUT_OF_RANGE_STYLE = {
+        font: { color: { argb: "FFB91C1C" }, bold: true }, // red-ish
+        fill: {
+          type: "pattern" as const,
+          pattern: "solid" as const,
+          fgColor: { argb: "FFFFEBEE" }, // very light red background
+        },
+      };
+
       /* -------------------- 1) Title row -------------------- */
       ws.addRow([titleText]);
       ws.mergeCells(1, 1, 1, colCount);
 
       const titleCell = ws.getCell(1, 1);
       titleCell.font = { size: 14, bold: true };
-      titleCell.alignment = {
-        horizontal: "center",
-        vertical: "middle",
-      };
+      titleCell.alignment = { horizontal: "center", vertical: "middle" };
       titleCell.fill = {
         type: "pattern",
         pattern: "solid",
@@ -151,7 +196,6 @@ export default function SearchPage() {
 
       /* -------------------- 2) Header row -------------------- */
       const headerRow = ws.addRow(dynamicHeaders.map((h) => h.label));
-
       headerRow.eachCell((cell) => {
         cell.font = { bold: true };
         cell.alignment = {
@@ -164,12 +208,7 @@ export default function SearchPage() {
           pattern: "solid",
           fgColor: { argb: "FFBDD7EE" },
         };
-        cell.border = {
-          top: { style: "thin" },
-          left: { style: "thin" },
-          bottom: { style: "thin" },
-          right: { style: "thin" },
-        };
+        cell.border = THIN_BORDER;
       });
 
       /* -------------------- 3) Data rows -------------------- */
@@ -178,9 +217,7 @@ export default function SearchPage() {
           const value = row[h.key];
 
           // Date handling
-          if (h.type === "date" && value) {
-            return new Date(value);
-          }
+          if (h.type === "date" && value) return new Date(value);
 
           // Numeric handling
           if (h.type === "number") {
@@ -205,7 +242,7 @@ export default function SearchPage() {
             cell.numFmt = "0.00";
           }
 
-          // Center EVERYTHING
+          // Center everything
           cell.alignment = {
             horizontal: "center",
             vertical: "middle",
@@ -213,12 +250,22 @@ export default function SearchPage() {
           };
 
           // Borders
-          cell.border = {
-            top: { style: "thin" },
-            left: { style: "thin" },
-            bottom: { style: "thin" },
-            right: { style: "thin" },
-          };
+          cell.border = THIN_BORDER;
+
+          // ✅ Apply raw data analysis highlight (same logic as UI)
+          if (h?.type === "number") {
+            const enabled = !!rangeEnabled[h.key];
+            const min = ranges[`${h.key}Min`];
+            const max = ranges[`${h.key}Max`];
+
+            // Use the ORIGINAL row value for range test (safer than cell.value conversions)
+            const out = isOutOfRange(row[h.key], enabled, min, max);
+
+            if (out) {
+              cell.font = { ...(cell.font ?? {}), ...OUT_OF_RANGE_STYLE.font };
+              cell.fill = OUT_OF_RANGE_STYLE.fill;
+            }
+          }
         });
       });
 
@@ -228,8 +275,7 @@ export default function SearchPage() {
 
         col.eachCell({ includeEmpty: true }, (cell: any) => {
           const v = cell.value;
-          const text =
-            v instanceof Date ? "yyyy-mm-dd" : v == null ? "" : String(v);
+          const text = v instanceof Date ? "yyyy-mm-dd" : v == null ? "" : String(v);
           maxLength = Math.max(maxLength, text.length + 1);
         });
 
@@ -255,6 +301,7 @@ export default function SearchPage() {
       setIsExporting(false);
     }
   };
+
 
   // --- Edit load ---
   const handleEdit = async (row: any) => {
@@ -491,6 +538,53 @@ export default function SearchPage() {
           </div>
         </div>
 
+  {/* Highlight Ranges */}
+<div className="bg-indigo-50 p-4 rounded-lg border space-y-4">
+  <h3 className="text-sm font-semibold text-indigo-700">
+    Highlight Out-of-Range Values (Optional)
+  </h3>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {dynamicHeaders
+      .filter((h) => h.type === "number")
+      .map((h) => (
+        <div key={h.key}>
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+            <input
+              type="checkbox"
+              checked={!!rangeEnabled[h.key]}
+              onChange={() => toggleRange(h.key)}
+            />
+            {h.label}
+          </label>
+
+          {rangeEnabled[h.key] && (
+            <div className="mt-2 flex gap-2">
+              <input
+                type="number"
+                placeholder="Min"
+                className={baseInputStyle}
+                value={ranges[`${h.key}Min`] ?? ""}
+                onChange={(e) =>
+                  updateRange(`${h.key}Min`, e.target.value)
+                }
+              />
+              <input
+                type="number"
+                placeholder="Max"
+                className={baseInputStyle}
+                value={ranges[`${h.key}Max`] ?? ""}
+                onChange={(e) =>
+                  updateRange(`${h.key}Max`, e.target.value)
+                }
+              />
+            </div>
+          )}
+        </div>
+      ))}
+  </div>
+</div>
+
         <div className="flex justify-end gap-3 pt-4">
           <button
           ref={searchBtnRef}
@@ -548,11 +642,27 @@ export default function SearchPage() {
                 {searchResults.map((row, idx) => (
                   <tr key={row.id || idx}>
                     {dynamicHeaders.map((h) => (
-                      <td key={h.key} className="px-6 py-4 text-sm text-gray-700">
-                        {h.key === "date" && row[h.key]
-                          ? new Date(row[h.key]).toISOString().split("T")[0].replace(/-/g, "/")
-                          : row[h.key] ?? ""}
-                      </td>
+<td
+  key={h.key}
+  className={`px-6 py-4 text-sm ${
+    h.type === "number" &&
+    isOutOfRange(
+      row[h.key],
+      rangeEnabled[h.key],
+      ranges[`${h.key}Min`],
+      ranges[`${h.key}Max`]
+    )
+      ? "text-red-600 font-semibold bg-red-50"
+      : "text-gray-700"
+  }`}
+>
+  {h.key === "date" && row[h.key]
+    ? new Date(row[h.key])
+        .toISOString()
+        .split("T")[0]
+        .replace(/-/g, "/")
+    : row[h.key] ?? ""}
+</td>
                     ))}
                     <td className="px-6 py-4 text-sm text-gray-700">
                       <div className="flex gap-2">
