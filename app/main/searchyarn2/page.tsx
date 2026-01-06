@@ -99,6 +99,19 @@ export default function SearchPage() {
 
   const disableActions = isSearching || isExporting || isMutating;
 
+    const [ranges, setRanges] = useState({
+    tensileMin: "",
+    tensileMax: "",
+    elongationMin: "",
+    elongationMax: "",
+    widthMin: "",
+    widthMax: "",
+  });
+  
+    const updateRange = (key: keyof typeof ranges, value: string) => {
+    setRanges((prev) => ({ ...prev, [key]: value }));
+  };
+
   const handleSearch = async () => {
     if (!productType) return setErrorMessage("Please enter a product type to search for.");
     if (!machine) return setErrorMessage("Please enter the machine.");
@@ -131,7 +144,7 @@ export default function SearchPage() {
     }
   };
 
-  // --- Export to Excel (date forced to "YYYY-MM-DD" string) ---
+  // --- Export to Excel (Yarn2 Production + full borders + raw data analysis highlight + SAFE date export) ---
   const handleExport = async () => {
     if (searchResults.length === 0) return;
 
@@ -145,7 +158,39 @@ export default function SearchPage() {
       const headersNoActions = HEADERS.filter((h) => h.key !== "actions");
       const colCount = headersNoActions.length;
 
-      // Title row
+      // ✅ Fix TS squiggles
+      const thin = "thin" as ExcelJS.BorderStyle;
+
+      const THIN_BORDER: Partial<ExcelJS.Borders> = {
+        top: { style: thin },
+        left: { style: thin },
+        bottom: { style: thin },
+        right: { style: thin },
+      };
+
+      // ✅ Out-of-range style (match UI red text + light red bg)
+      const OUT_OF_RANGE_FONT: Partial<ExcelJS.Font> = {
+        color: { argb: "FFB91C1C" },
+        bold: true,
+      };
+
+      const OUT_OF_RANGE_FILL: ExcelJS.Fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFFFEBEE" },
+      };
+
+      // ✅ Map UI ranges -> data keys
+      const RANGE_MAP: Record<
+        string,
+        { minKey: keyof typeof ranges; maxKey: keyof typeof ranges }
+      > = {
+        tensile: { minKey: "tensileMin", maxKey: "tensileMax" },
+        elongation: { minKey: "elongationMin", maxKey: "elongationMax" },
+        widthMm: { minKey: "widthMin", maxKey: "widthMax" }, // UI uses widthMin/widthMax
+      };
+
+      /* -------------------- 1) Title row -------------------- */
       const title = `Yarn(Production) Summary (${startDate} to ${endDate})`;
       ws.addRow([title]);
       ws.mergeCells(1, 1, 1, colCount);
@@ -155,32 +200,35 @@ export default function SearchPage() {
       titleCell.alignment = { horizontal: "center", vertical: "middle" };
       ws.getRow(1).height = 24;
 
-      // Spacer row
+      /* -------------------- Spacer row -------------------- */
       ws.addRow([]);
 
-      // Header row
+      /* -------------------- 2) Header row -------------------- */
       const headerRow = ws.addRow(headersNoActions.map((h) => h.label));
-      headerRow.font = { bold: true };
-      headerRow.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
 
-      headerRow.eachCell((cell) => {
-        cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFE5E7EB" } };
-        cell.border = {
-          top: { style: "thin" },
-          left: { style: "thin" },
-          bottom: { style: "thin" },
-          right: { style: "thin" },
+      // ✅ IMPORTANT: style ALL header cells (ensures full borders always)
+      for (let c = 1; c <= colCount; c++) {
+        const cell = headerRow.getCell(c);
+        cell.font = { bold: true };
+        cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "FFE5E7EB" },
         };
-      });
+        cell.border = THIN_BORDER;
+      }
 
-      // Data rows
+      /* -------------------- 3) Data rows -------------------- */
       searchResults.forEach((row) => {
         const values = headersNoActions.map((h) => {
           const key = h.key as string;
           const value = row[key];
 
+          // ✅ SAFE: export date as TEXT "YYYY-MM-DD" (prevents timezone -1 day)
           if (key === "date") return toISODateOnly(value);
 
+          // Numeric
           if (NUMERIC_KEYS.has(key)) {
             if (value == null || value === "") return null;
             const n = Number(value);
@@ -192,37 +240,55 @@ export default function SearchPage() {
 
         const excelRow = ws.addRow(values);
 
-        excelRow.eachCell((cell, colNumber) => {
-          const key = headersNoActions[colNumber - 1]?.key as string;
+        // ✅ IMPORTANT: loop all columns (so empty cells also get borders/highlight)
+        for (let c = 1; c <= colCount; c++) {
+          const cell = excelRow.getCell(c);
+          const key = headersNoActions[c - 1]?.key as string;
 
-          cell.border = {
-            top: { style: "thin" },
-            left: { style: "thin" },
-            bottom: { style: "thin" },
-            right: { style: "thin" },
-          };
-
-          if (NUMERIC_KEYS.has(key)) cell.numFmt = "0.00";
-
+          // Borders + center
+          cell.border = THIN_BORDER;
           cell.alignment = {
             horizontal: "center",
             vertical: "middle",
             wrapText: true,
           };
-        });
+
+          // Formats
+          if (key === "date") {
+            // exported as text
+            cell.numFmt = "@";
+          } else if (NUMERIC_KEYS.has(key)) {
+            cell.numFmt = "0.00";
+          }
+
+          // ✅ Raw data analysis highlight (same logic as UI)
+          const map = RANGE_MAP[key];
+          if (map) {
+            const min = ranges[map.minKey];
+            const max = ranges[map.maxKey];
+
+            if (isOutOfRange(row[key], min, max)) {
+              cell.font = { ...(cell.font ?? {}), ...OUT_OF_RANGE_FONT };
+              cell.fill = OUT_OF_RANGE_FILL;
+            }
+          }
+        }
       });
 
-      // Auto-fit columns
+      /* -------------------- 4) Auto-fit columns -------------------- */
       ws.columns.forEach((col: any) => {
         let maxLength = 8;
+
         col.eachCell({ includeEmpty: true }, (cell: any) => {
           const v = cell.value;
           const text = v == null ? "" : String(v);
           maxLength = Math.max(maxLength, text.length + 1);
         });
+
         col.width = Math.min(Math.max(maxLength, 8), 18);
       });
 
+      /* -------------------- Export -------------------- */
       const buffer = await workbook.xlsx.writeBuffer();
       const blob = new Blob([buffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -241,6 +307,7 @@ export default function SearchPage() {
       setIsExporting(false);
     }
   };
+
 
   const handleEdit = async (row: any) => {
     if (!row?.id) return;
@@ -432,6 +499,85 @@ export default function SearchPage() {
           </div>
         </div>
 
+                <div className="flex justify-end gap-3 pt-4">
+            <div className="bg-white p-4 rounded-lg border space-y-3">
+  <h3 className="text-sm font-semibold text-indigo-700">
+    Range
+  </h3>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {/* Tensile */}
+    <div>
+      <label className="text-xs font-medium text-gray-700 block mb-1">
+        Tensile
+      </label>
+      <div className="flex gap-2">
+        <input
+          type="number"
+          placeholder="Min"
+          className={baseInputStyle}
+          value={ranges.tensileMin}
+          onChange={(e) => updateRange("tensileMin", e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Max"
+          className={baseInputStyle}
+          value={ranges.tensileMax}
+          onChange={(e) => updateRange("tensileMax", e.target.value)}
+        />
+      </div>
+    </div>
+
+    {/* Elongation */}
+    <div>
+      <label className="text-xs font-medium text-gray-700 block mb-1">
+        Elongation
+      </label>
+      <div className="flex gap-2">
+        <input
+          type="number"
+          placeholder="Min"
+          className={baseInputStyle}
+          value={ranges.elongationMin}
+          onChange={(e) => updateRange("elongationMin", e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Max"
+          className={baseInputStyle}
+          value={ranges.elongationMax}
+          onChange={(e) => updateRange("elongationMax", e.target.value)}
+        />
+      </div>
+    </div>
+
+    {/* Width */}
+    <div>
+      <label className="text-xs font-medium text-gray-700 block mb-1">
+        Width
+      </label>
+      <div className="flex gap-2">
+        <input
+          type="number"
+          placeholder="Min"
+          className={baseInputStyle}
+          value={ranges.widthMin}
+          onChange={(e) => updateRange("widthMin", e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Max"
+          className={baseInputStyle}
+          value={ranges.widthMax}
+          onChange={(e) => updateRange("widthMax", e.target.value)}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
         <div className="flex justify-end gap-3 pt-4">
           <button
             ref={searchBtnRef}
@@ -483,9 +629,21 @@ export default function SearchPage() {
                   <tr key={row.id || idx}>
                     {HEADERS.map((h) =>
                       h.key !== "actions" ? (
-                        <td key={h.key} className="px-6 py-4 text-sm text-gray-700">
-                          {h.key === "date" ? toDisplayDate(row[h.key]) : row[h.key] ?? ""}
-                        </td>
+<td
+  key={h.key}
+  className={`px-6 py-4 text-sm ${
+    (h.key === "tensile" &&
+      isOutOfRange(row.tensile, ranges.tensileMin, ranges.tensileMax)) ||
+    (h.key === "elongation" &&
+      isOutOfRange(row.elongation, ranges.elongationMin, ranges.elongationMax)) ||
+    (h.key === "widthMm" &&
+      isOutOfRange(row.widthMm, ranges.widthMin, ranges.widthMax))
+      ? "text-red-600 font-semibold bg-red-50"
+      : "text-gray-700"
+  }`}
+>
+  {h.key === "date" ? toDisplayDate(row[h.key]) : row[h.key] ?? ""}
+</td>
                       ) : (
                         <td key="actions" className="px-6 py-4 text-sm text-gray-700">
                           <div className="flex gap-2">
@@ -674,6 +832,22 @@ export default function SearchPage() {
       )}
     </div>
   );
+}
+
+function isOutOfRange(
+  value: any,
+  min?: string,
+  max?: string
+): boolean {
+  if (value == null || value === "") return false;
+
+  const num = Number(value);
+  if (!Number.isFinite(num)) return false;
+
+  if (min !== "" && num < Number(min)) return true;
+  if (max !== "" && num > Number(max)) return true;
+
+  return false;
 }
 
 /** Small UI wrapper so your form stays neat */

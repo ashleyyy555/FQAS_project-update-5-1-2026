@@ -255,6 +255,9 @@ export default function LaminationUI() {
     }
   };
 
+  const productIdRef = useRef<HTMLInputElement>(null);
+
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <h1 className="text-3xl font-extrabold text-gray-900">Lamination Data Entry</h1>
@@ -362,6 +365,12 @@ export default function LaminationUI() {
     className="flex-1 p-2 border border-gray-300 rounded-lg h-10"
     value={product}
     onChange={(e) => setProduct(e.target.value)}
+      onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      productIdRef.current?.focus();
+    }
+  }}
   />
 </div>
 
@@ -526,6 +535,7 @@ export default function LaminationUI() {
     Product ID:
   </label>
   <input
+    ref={productIdRef}
     placeholder="Enter product ID ..."
     type="text"
     className="flex-1 p-2 border border-gray-300 rounded-lg h-10"

@@ -135,6 +135,80 @@ export default function PackingUI() {
     inputRefs.current[index] = el;
   };
 
+  const focusNotes = () => {
+  const notesIndex = 16; // your Notes textarea index
+  inputRefs.current[notesIndex]?.focus();
+};
+
+const handleElongationEnter = (
+  e: React.KeyboardEvent,
+  nextIndex: number
+) => {
+  if (e.key !== "Enter") return;
+  e.preventDefault();
+
+  // If ANY tubing field is shown, continue normal flow
+  if (
+    showTubingTensile ||
+    showTubingElongation ||
+    showTubingPeelPeak ||
+    showTubingPeelAvg
+  ) {
+    inputRefs.current[nextIndex]?.focus();
+    return;
+  }
+
+  // Otherwise, jump straight to Notes
+  focusNotes();
+};
+
+const TUBING_ORDER = [
+  "tubingTensile",
+  "tubingElongation",
+  "tubingPeelPeak",
+  "tubingPeelAvg",
+] as const;
+
+const tubingVisibility: Record<typeof TUBING_ORDER[number], boolean> = {
+  tubingTensile: showTubingTensile,
+  tubingElongation: showTubingElongation,
+  tubingPeelPeak: showTubingPeelPeak,
+  tubingPeelAvg: showTubingPeelAvg,
+};
+
+const tubingRefIndex: Record<typeof TUBING_ORDER[number], number> = {
+  tubingTensile: 12,
+  tubingElongation: 13,
+  tubingPeelPeak: 14,
+  tubingPeelAvg: 15,
+};
+
+const notesIndex = 16;
+
+const handleTubingEnter = (
+  e: React.KeyboardEvent,
+  current: typeof TUBING_ORDER[number]
+) => {
+  if (e.key !== "Enter") return;
+  e.preventDefault();
+
+  const currentPos = TUBING_ORDER.indexOf(current);
+
+  // Find next visible tubing field
+  for (let i = currentPos + 1; i < TUBING_ORDER.length; i++) {
+    const key = TUBING_ORDER[i];
+    if (tubingVisibility[key]) {
+      inputRefs.current[tubingRefIndex[key]]?.focus();
+      return;
+    }
+  }
+
+  // Otherwise → go to Notes
+  inputRefs.current[notesIndex]?.focus();
+};
+
+
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <h1 className="text-3xl font-extrabold text-gray-900">
@@ -361,7 +435,7 @@ export default function PackingUI() {
             onChange={(e) => handleNumberInput(e.target.value, setElongationCD)}
             className="p-2 border border-gray-300 rounded-lg h-10"
             ref={(el) => setRef(el, 11)}
-            onKeyDown={(e) => handleEnter(e, 11)}
+            onKeyDown={(e) => handleElongationEnter(e, 12)}
           />
         </div>
 
@@ -378,7 +452,7 @@ export default function PackingUI() {
       onChange={(e) => handleNumberInput(e.target.value, setTubingTensile)}
       className="p-2 border border-gray-300 rounded-lg h-10"
       ref={(el) => setRef(el, 12)}
-      onKeyDown={(e) => handleEnter(e, 12)}
+      onKeyDown={(e) => handleTubingEnter(e, "tubingTensile")}
     />
   </div>
 )}
@@ -396,7 +470,8 @@ export default function PackingUI() {
       onChange={(e) => handleNumberInput(e.target.value, setTubingElongation)}
       className="p-2 border border-gray-300 rounded-lg h-10"
       ref={(el) => setRef(el, 13)}
-      onKeyDown={(e) => handleEnter(e, 13)}
+      onKeyDown={(e) => handleTubingEnter(e, "tubingElongation")}
+
     />
   </div>
 )}
@@ -414,7 +489,8 @@ export default function PackingUI() {
       onChange={(e) => handleNumberInput(e.target.value, setTubingPeelPeak)}
       className="p-2 border border-gray-300 rounded-lg h-10"
       ref={(el) => setRef(el, 14)}
-      onKeyDown={(e) => handleEnter(e, 14)}
+      onKeyDown={(e) => handleTubingEnter(e, "tubingPeelPeak")}
+
     />
   </div>
 )}
@@ -432,7 +508,8 @@ export default function PackingUI() {
       onChange={(e) => handleNumberInput(e.target.value, setTubingPeelAvg)}
       className="p-2 border border-gray-300 rounded-lg h-10"
       ref={(el) => setRef(el, 15)}
-      onKeyDown={(e) => handleEnter(e, 15)}
+      onKeyDown={(e) => handleTubingEnter(e, "tubingPeelAvg")}
+
     />
   </div>
 )}
