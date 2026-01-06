@@ -154,21 +154,25 @@ export async function POST(req: Request) {
     // ============================
 
     // 1) Tear Propagation = tearStrength * 10 / thickness
+    const round3 = (n: number) => Number(n.toFixed(3));
+
+    // 1) Tear Propagation = tearStrength * 10 / thickness  (rounded 3dp)
     const tearPropagationMD =
       tearStrengthMD != null && thickness != null && thickness !== 0
-        ? (tearStrengthMD * 10) / thickness
+        ? round3((tearStrengthMD * 10) / thickness)
         : null;
-
+      
     const tearPropagationCD =
       tearStrengthCD != null && thickness != null && thickness !== 0
-        ? (tearStrengthCD * 10) / thickness
+        ? round3((tearStrengthCD * 10) / thickness)
         : null;
-
-    // 2) I = bS476i1 + bS476i2 + bS476i3
+      
+    // 2) I = bS476i1 + bS476i2 + bS476i3  (rounded 3dp)
     const bs476I =
       bS476i1 == null && bS476i2 == null && bS476i3 == null
         ? null
-        : (bS476i1 ?? 0) + (bS476i2 ?? 0) + (bS476i3 ?? 0);
+        : round3((bS476i1 ?? 0) + (bS476i2 ?? 0) + (bS476i3 ?? 0));
+
 
     // Build shared payload (MUST match your Prisma models exactly)
     const payload = {
