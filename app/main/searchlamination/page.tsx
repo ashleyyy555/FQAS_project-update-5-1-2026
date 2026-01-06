@@ -151,11 +151,10 @@ const isOutOfRange = (
     setIsExporting(true);
     setErrorMessage("");
 
-    // ✅ Export the UI date (string) to avoid timezone shift (minus 1 day)
+    // Export the UI date (string) to avoid timezone shift (minus 1 day)
     const toYMD = (v: any) => {
       if (!v) return "";
-      // supports "YYYY-MM-DD" or ISO timestamp "YYYY-MM-DDTHH:mm:ss..."
-      return String(v).slice(0, 10); // "YYYY-MM-DD"
+      return String(v).slice(0, 10); // "YYYY-MM-DD" from "YYYY-MM-DD" or ISO timestamp
     };
 
     try {
@@ -165,7 +164,6 @@ const isOutOfRange = (
       const colCount = dynamicHeaders.length;
       const titleText = `Lamination Results (${startDate} to ${endDate})`;
 
-      // ✅ Fix TS red squiggles for border style
       const thin = "thin" as ExcelJS.BorderStyle;
 
       const THIN_BORDER: Partial<ExcelJS.Borders> = {
@@ -175,7 +173,7 @@ const isOutOfRange = (
         right: { style: thin },
       };
 
-      // Raw data analysis highlight style (match UI "text-red-600 bg-red-50" vibe)
+      // Out-of-range style (same as Packaging)
       const OUT_OF_RANGE_FONT: Partial<ExcelJS.Font> = {
         color: { argb: "FFB91C1C" },
         bold: true,
@@ -187,37 +185,38 @@ const isOutOfRange = (
         fgColor: { argb: "FFFFEBEE" },
       };
 
-      /* -------------------- 1) Title row -------------------- */
+      /* -------------------- 1) Title row (match Packaging) -------------------- */
       ws.addRow([titleText]);
       ws.mergeCells(1, 1, 1, colCount);
 
       const titleCell = ws.getCell(1, 1);
-      titleCell.font = { size: 14, bold: true };
+      titleCell.font = { size: 16, bold: true }; 
       titleCell.alignment = { horizontal: "center", vertical: "middle" };
-      titleCell.fill = {
-        type: "pattern",
-        pattern: "solid",
-        fgColor: { argb: "FFE5F0FF" },
-      };
+      // Packaging has NO fill for title row, so remove fill
       ws.getRow(1).height = 24;
 
       /* -------------------- Spacer row -------------------- */
       ws.addRow([]);
 
-      /* -------------------- 2) Header row -------------------- */
+      /* -------------------- 2) Header row (match Packaging) -------------------- */
       const headerRow = ws.addRow(dynamicHeaders.map((h) => h.label));
 
-      // ✅ IMPORTANT: style ALL header cells (even if some are "empty")
       for (let c = 1; c <= colCount; c++) {
         const cell = headerRow.getCell(c);
-        cell.font = { bold: true };
-        cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
+
         cell.fill = {
           type: "pattern",
           pattern: "solid",
-          fgColor: { argb: "FFBDD7EE" },
+          fgColor: { argb: "FFE5E7EB" }, 
         };
+
         cell.border = THIN_BORDER;
+        cell.font = { bold: true };
+        cell.alignment = {
+          horizontal: "center",
+          vertical: "middle",
+          wrapText: true,
+        };
       }
 
       /* -------------------- 3) Data rows -------------------- */
@@ -225,7 +224,7 @@ const isOutOfRange = (
         const rowValues = dynamicHeaders.map((h) => {
           const value = row[h.key];
 
-          // ✅ Date handling: export UI date string to prevent timezone -1 day
+          // Date as TEXT string to avoid timezone shift
           if (h.type === "date" && value) return toYMD(value);
 
           // Numeric handling
@@ -240,27 +239,23 @@ const isOutOfRange = (
 
         const dataRow = ws.addRow(rowValues);
 
-        // ✅ IMPORTANT: style ALL cells by looping columns (prevents missing borders)
+        // IMPORTANT: style ALL cells to avoid missing borders
         for (let c = 1; c <= colCount; c++) {
           const cell = dataRow.getCell(c);
           const h = dynamicHeaders[c - 1];
 
-          // Center everything
-          cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
-
-          // Borders
           cell.border = THIN_BORDER;
+          cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
 
           // Formats
           if (h?.type === "date") {
-            // ✅ treat as TEXT so Excel won't interpret/shift timezone
-            cell.numFmt = "@";
+            cell.numFmt = "@"; // treat as TEXT (same as Packaging date logic)
           }
           if (h?.type === "number") {
             cell.numFmt = "0.00";
           }
 
-          // ✅ Apply raw data analysis highlight (same logic as UI)
+          // Raw data analysis highlight (same behavior as before)
           if (h?.type === "number") {
             const enabled = !!rangeEnabled[h.key];
             const min = ranges[`${h.key}Min`];
@@ -306,6 +301,7 @@ const isOutOfRange = (
       setIsExporting(false);
     }
   };
+
 
 
 

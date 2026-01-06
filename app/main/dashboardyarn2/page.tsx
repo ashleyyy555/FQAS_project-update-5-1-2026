@@ -393,7 +393,7 @@ export default function YarnDashboard() {
 
   return (
     <div className="p-4 md:p-8">
-      <h1 className="text-4xl font-extrabold mb-6 border-b pb-4">Yarn Dashboard</h1>
+      <h1 className="text-4xl font-extrabold mb-6 border-b pb-4">Yarn Production Dashboard</h1>
 
       <div className="bg-white p-6 rounded-xl shadow-xl border border-indigo-100 mb-6 space-y-4">
         {/* Row 1 */}
