@@ -12,7 +12,7 @@ function normalizeProductID(v: unknown): string | null {
   return raw.replace(/\s+/g, "").toUpperCase();
 }
 
-// productType / construction: trim, remove spaces, UPPERCASE   ✅ CHANGED
+// productType / construction: trim, remove spaces, UPPERCASE
 function normalizeNoSpaceUpper(v: unknown): string | null {
   const raw = String(v ?? "").trim();
   if (!raw) return null;
@@ -37,9 +37,26 @@ function isValidDateStr(d: string): boolean {
   return /^\d{4}-\d{2}-\d{2}$/.test(d);
 }
 
+// Convert Date -> YYYY-MM-DD safely using UTC parts
+function formatDateOnlyUTC(date: Date | null | undefined): string | null {
+  if (!date || Number.isNaN(date.getTime())) return null;
+
+  const y = date.getUTCFullYear();
+  const m = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(date.getUTCDate()).padStart(2, "0");
+
+  return `${y}-${m}-${d}`;
+}
+
 /* ----------------- Zod Schemas ----------------- */
 
-const EditableValue = z.union([z.string(), z.number(), z.boolean(), z.null(), z.date()]);
+const EditableValue = z.union([
+  z.string(),
+  z.number(),
+  z.boolean(),
+  z.null(),
+  z.date(),
+]);
 
 const FetchSchema = z.object({
   id: z.string().min(1),
@@ -80,7 +97,12 @@ export async function fetchPackagingById(input: unknown) {
   const row = await prisma.packaging.findUnique({ where: { id: idNum } });
   if (!row) return { error: "Record not found." };
 
-  return { data: row };
+  return {
+    data: {
+      ...row,
+      testDate: formatDateOnlyUTC(row.testDate),
+    },
+  };
 }
 
 export async function updatePackaging(input: unknown) {
@@ -104,14 +126,14 @@ export async function updatePackaging(input: unknown) {
     if (v === "") cleaned[k] = null;
   }
 
-  // 1) productType: remove spaces + UPPERCASE ✅ CHANGED
+  // 1) productType: remove spaces + UPPERCASE
   if ("productType" in cleaned) {
     const norm = normalizeNoSpaceUpper(cleaned.productType);
     if (!norm) return { error: "Product Type must contain at least one character." };
     cleaned.productType = norm;
   }
 
-  // 2) construction: remove spaces + UPPERCASE ✅ CHANGED
+  // 2) construction: remove spaces + UPPERCASE
   if ("construction" in cleaned) {
     const norm = normalizeNoSpaceUpper(cleaned.construction);
     if (!norm) return { error: "Construction must contain at least one character." };
@@ -135,21 +157,20 @@ export async function updatePackaging(input: unknown) {
     cleaned.additionalFeatures = normalizeTrimKeepSpaces(cleaned.additionalFeatures);
   }
 
-  // --- Handle testDate (as YYYY-MM-DD string) ---
-  if ("testDate" in cleaned && cleaned.testDate != null) {
-    const raw = String(cleaned.testDate).trim();
-    let d: Date | null = null;
+  // --- Handle testDate (save as UTC-safe date) ---
+  if ("testDate" in cleaned) {
+    if (cleaned.testDate == null) {
+      cleaned.testDate = null;
+    } else {
+      const raw = String(cleaned.testDate).trim();
 
-    if (isValidDateStr(raw)) d = new Date(`${raw}T00:00:00Z`);
-    else {
-      const tmp = new Date(raw);
-      if (!Number.isNaN(tmp.getTime())) d = tmp;
-    }
+      if (!isValidDateStr(raw)) {
+        return { error: "Invalid testDate. Use YYYY-MM-DD." };
+      }
 
-    if (!d || Number.isNaN(d.getTime())) {
-      return { error: "Invalid testDate. Use YYYY-MM-DD or a valid date string." };
+      // Save as UTC midnight for consistent date-only storage
+      cleaned.testDate = new Date(`${raw}T00:00:00.000Z`);
     }
-    cleaned.testDate = d;
   }
 
   // --- Coerce Float columns ---
@@ -175,7 +196,13 @@ export async function updatePackaging(input: unknown) {
       where: { id: idNum },
       data: cleaned,
     });
-    return { data: updated };
+
+    return {
+      data: {
+        ...updated,
+        testDate: formatDateOnlyUTC(updated.testDate),
+      },
+    };
   } catch (e) {
     console.error("Packaging update failed", e);
     return { error: "Update failed. Please check that numeric fields contain valid values." };

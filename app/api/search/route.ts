@@ -4,12 +4,12 @@ import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 
-// --- Normalize text: trim, remove spaces, optionally lowercase ---
-function normalizeText(v: unknown, toLower = true): string | null {
+// --- Normalize text: trim, remove spaces, uppercase ---
+function normalizeText(v: unknown, toUpper = true): string | null {
   const raw = String(v ?? "").trim();
   if (!raw) return null;
   const cleaned = raw.replace(/\s+/g, "");
-  return toLower ? cleaned.toUpperCase() : cleaned;
+  return toUpper ? cleaned.toUpperCase() : cleaned.toUpperCase();
 }
 
 // --- Normalize Product ID: trim, remove spaces, uppercase ---
@@ -24,9 +24,27 @@ function isValidDateStr(d: string) {
   return /^\d{4}-\d{2}-\d{2}$/.test(d);
 }
 
-// --- UTC-safe Date constructor]// ---
-function makeUtcDate(y: string, m: string, d: string, hh: number, mm: number, ss: number) {
+// --- UTC-safe Date constructor ---
+function makeUtcDate(
+  y: string,
+  m: string,
+  d: string,
+  hh: number,
+  mm: number,
+  ss: number
+) {
   return new Date(Date.UTC(Number(y), Number(m) - 1, Number(d), hh, mm, ss));
+}
+
+// --- Format Date -> YYYY-MM-DD using UTC parts ---
+function formatDateOnlyUTC(date: Date | null | undefined): string {
+  if (!date || Number.isNaN(date.getTime())) return "";
+
+  const y = date.getUTCFullYear();
+  const m = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(date.getUTCDate()).padStart(2, "0");
+
+  return `${y}-${m}-${d}`;
 }
 
 interface SearchBody {
@@ -51,33 +69,57 @@ export async function POST(req: Request) {
 
     // --- Validation ---
     if (!startDate || !endDate) {
-      return NextResponse.json({ message: "Both startDate and endDate are required." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Both startDate and endDate are required." },
+        { status: 400 }
+      );
     }
+
     if (!isValidDateStr(startDate) || !isValidDateStr(endDate)) {
-      return NextResponse.json({ message: "Dates must be in YYYY-MM-DD format." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Dates must be in YYYY-MM-DD format." },
+        { status: 400 }
+      );
     }
+
     if (!productTypeInput) {
-      return NextResponse.json({ message: "Product Type is required." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Product Type is required." },
+        { status: 400 }
+      );
     }
+
     if (!constructionInput) {
-      return NextResponse.json({ message: "Construction is required." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Construction is required." },
+        { status: 400 }
+      );
     }
+
     if (!denierInput) {
-      return NextResponse.json({ message: "Denier is required." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Denier is required." },
+        { status: 400 }
+      );
     }
 
     const productTypeNorm = normalizeText(productTypeInput)!;
-    const constructionNorm = normalizeText(constructionInput, false)!; // trim & remove spaces
+    const constructionNorm = normalizeText(constructionInput, false)!;
     const denier = Number(denierInput);
-    if (isNaN(denier)) {
-      return NextResponse.json({ message: "Denier must be a valid number." }, { status: 400 });
+
+    if (Number.isNaN(denier)) {
+      return NextResponse.json(
+        { message: "Denier must be a valid number." },
+        { status: 400 }
+      );
     }
 
     const colorNorm = colorInput ? normalizeText(colorInput, false)! : undefined;
 
-    // --- UTC dates ---
+    // --- UTC date range ---
     const [sy, sm, sd] = startDate.split("-");
     const [ey, em, ed] = endDate.split("-");
+
     const start = makeUtcDate(sy, sm, sd, 0, 0, 0);
     const end = makeUtcDate(ey, em, ed, 23, 59, 59);
 
@@ -87,25 +129,26 @@ export async function POST(req: Request) {
         productType: productTypeNorm,
         construction: constructionNorm,
         denier,
-        ...(colorNorm ? { color: colorNorm } : {}), // optional
-        testDate: { gte: start, lte: end },
+        ...(colorNorm ? { color: colorNorm } : {}),
+        testDate: {
+          gte: start,
+          lte: end,
+        },
       },
       orderBy: { productID: "asc" },
     });
 
-    // --- Format testDate for frontend ---
+    // --- Format testDate safely for frontend ---
     const formattedResults = results.map((r) => ({
       ...r,
-      testDate: (() => {
-        const d = new Date(r.testDate);
-        return isNaN(d.getTime()) ? "" : d.toISOString().split("T")[0].replace(/-/g, "/");
-      })(),
+      testDate: formatDateOnlyUTC(r.testDate),
     }));
 
     return NextResponse.json({ ok: true, data: formattedResults });
   } catch (err) {
     console.error("[/api/packaging/search] error:", err);
-    const message = (err as Error)?.message ?? "Failed to search packaging entries.";
+    const message =
+      (err as Error)?.message ?? "Failed to search packaging entries.";
     return NextResponse.json({ message }, { status: 500 });
   }
 }
