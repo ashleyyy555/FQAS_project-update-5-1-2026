@@ -49,6 +49,8 @@ export type LaminationMs2095AvgAggregateOutputType = {
   adhesive2CD: number | null
   tearResistanceMD: number | null
   tearResistanceCD: number | null
+  initialTearMD: number | null
+  initialTearCD: number | null
   staplerTestMD: number | null
   staplerTestCD: number | null
   emissivityAlum1: number | null
@@ -89,6 +91,8 @@ export type LaminationMs2095SumAggregateOutputType = {
   adhesive2CD: number | null
   tearResistanceMD: number | null
   tearResistanceCD: number | null
+  initialTearMD: number | null
+  initialTearCD: number | null
   staplerTestMD: number | null
   staplerTestCD: number | null
   emissivityAlum1: number | null
@@ -135,6 +139,8 @@ export type LaminationMs2095MinAggregateOutputType = {
   adhesive2CD: number | null
   tearResistanceMD: number | null
   tearResistanceCD: number | null
+  initialTearMD: number | null
+  initialTearCD: number | null
   staplerTestMD: number | null
   staplerTestCD: number | null
   emissivityAlum1: number | null
@@ -184,6 +190,8 @@ export type LaminationMs2095MaxAggregateOutputType = {
   adhesive2CD: number | null
   tearResistanceMD: number | null
   tearResistanceCD: number | null
+  initialTearMD: number | null
+  initialTearCD: number | null
   staplerTestMD: number | null
   staplerTestCD: number | null
   emissivityAlum1: number | null
@@ -233,6 +241,8 @@ export type LaminationMs2095CountAggregateOutputType = {
   adhesive2CD: number
   tearResistanceMD: number
   tearResistanceCD: number
+  initialTearMD: number
+  initialTearCD: number
   staplerTestMD: number
   staplerTestCD: number
   emissivityAlum1: number
@@ -278,6 +288,8 @@ export type LaminationMs2095AvgAggregateInputType = {
   adhesive2CD?: true
   tearResistanceMD?: true
   tearResistanceCD?: true
+  initialTearMD?: true
+  initialTearCD?: true
   staplerTestMD?: true
   staplerTestCD?: true
   emissivityAlum1?: true
@@ -318,6 +330,8 @@ export type LaminationMs2095SumAggregateInputType = {
   adhesive2CD?: true
   tearResistanceMD?: true
   tearResistanceCD?: true
+  initialTearMD?: true
+  initialTearCD?: true
   staplerTestMD?: true
   staplerTestCD?: true
   emissivityAlum1?: true
@@ -364,6 +378,8 @@ export type LaminationMs2095MinAggregateInputType = {
   adhesive2CD?: true
   tearResistanceMD?: true
   tearResistanceCD?: true
+  initialTearMD?: true
+  initialTearCD?: true
   staplerTestMD?: true
   staplerTestCD?: true
   emissivityAlum1?: true
@@ -413,6 +429,8 @@ export type LaminationMs2095MaxAggregateInputType = {
   adhesive2CD?: true
   tearResistanceMD?: true
   tearResistanceCD?: true
+  initialTearMD?: true
+  initialTearCD?: true
   staplerTestMD?: true
   staplerTestCD?: true
   emissivityAlum1?: true
@@ -462,6 +480,8 @@ export type LaminationMs2095CountAggregateInputType = {
   adhesive2CD?: true
   tearResistanceMD?: true
   tearResistanceCD?: true
+  initialTearMD?: true
+  initialTearCD?: true
   staplerTestMD?: true
   staplerTestCD?: true
   emissivityAlum1?: true
@@ -598,6 +618,8 @@ export type LaminationMs2095GroupByOutputType = {
   adhesive2CD: number | null
   tearResistanceMD: number | null
   tearResistanceCD: number | null
+  initialTearMD: number | null
+  initialTearCD: number | null
   staplerTestMD: number | null
   staplerTestCD: number | null
   emissivityAlum1: number | null
@@ -670,6 +692,8 @@ export type LaminationMs2095WhereInput = {
   adhesive2CD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   tearResistanceMD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   tearResistanceCD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
+  initialTearMD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
+  initialTearCD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   staplerTestMD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   staplerTestCD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   emissivityAlum1?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
@@ -719,6 +743,8 @@ export type LaminationMs2095OrderByWithRelationInput = {
   adhesive2CD?: Prisma.SortOrderInput | Prisma.SortOrder
   tearResistanceMD?: Prisma.SortOrderInput | Prisma.SortOrder
   tearResistanceCD?: Prisma.SortOrderInput | Prisma.SortOrder
+  initialTearMD?: Prisma.SortOrderInput | Prisma.SortOrder
+  initialTearCD?: Prisma.SortOrderInput | Prisma.SortOrder
   staplerTestMD?: Prisma.SortOrderInput | Prisma.SortOrder
   staplerTestCD?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityAlum1?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -771,6 +797,8 @@ export type LaminationMs2095WhereUniqueInput = Prisma.AtLeast<{
   adhesive2CD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   tearResistanceMD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   tearResistanceCD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
+  initialTearMD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
+  initialTearCD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   staplerTestMD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   staplerTestCD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   emissivityAlum1?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
@@ -820,6 +848,8 @@ export type LaminationMs2095OrderByWithAggregationInput = {
   adhesive2CD?: Prisma.SortOrderInput | Prisma.SortOrder
   tearResistanceMD?: Prisma.SortOrderInput | Prisma.SortOrder
   tearResistanceCD?: Prisma.SortOrderInput | Prisma.SortOrder
+  initialTearMD?: Prisma.SortOrderInput | Prisma.SortOrder
+  initialTearCD?: Prisma.SortOrderInput | Prisma.SortOrder
   staplerTestMD?: Prisma.SortOrderInput | Prisma.SortOrder
   staplerTestCD?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityAlum1?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -877,6 +907,8 @@ export type LaminationMs2095ScalarWhereWithAggregatesInput = {
   adhesive2CD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
   tearResistanceMD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
   tearResistanceCD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
+  initialTearMD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
+  initialTearCD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
   staplerTestMD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
   staplerTestCD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
   emissivityAlum1?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
@@ -925,6 +957,8 @@ export type LaminationMs2095CreateInput = {
   adhesive2CD?: number | null
   tearResistanceMD?: number | null
   tearResistanceCD?: number | null
+  initialTearMD?: number | null
+  initialTearCD?: number | null
   staplerTestMD?: number | null
   staplerTestCD?: number | null
   emissivityAlum1?: number | null
@@ -974,6 +1008,8 @@ export type LaminationMs2095UncheckedCreateInput = {
   adhesive2CD?: number | null
   tearResistanceMD?: number | null
   tearResistanceCD?: number | null
+  initialTearMD?: number | null
+  initialTearCD?: number | null
   staplerTestMD?: number | null
   staplerTestCD?: number | null
   emissivityAlum1?: number | null
@@ -1022,6 +1058,8 @@ export type LaminationMs2095UpdateInput = {
   adhesive2CD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   tearResistanceMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   tearResistanceCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  initialTearMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  initialTearCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   staplerTestMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   staplerTestCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1071,6 +1109,8 @@ export type LaminationMs2095UncheckedUpdateInput = {
   adhesive2CD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   tearResistanceMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   tearResistanceCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  initialTearMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  initialTearCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   staplerTestMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   staplerTestCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1120,6 +1160,8 @@ export type LaminationMs2095CreateManyInput = {
   adhesive2CD?: number | null
   tearResistanceMD?: number | null
   tearResistanceCD?: number | null
+  initialTearMD?: number | null
+  initialTearCD?: number | null
   staplerTestMD?: number | null
   staplerTestCD?: number | null
   emissivityAlum1?: number | null
@@ -1168,6 +1210,8 @@ export type LaminationMs2095UpdateManyMutationInput = {
   adhesive2CD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   tearResistanceMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   tearResistanceCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  initialTearMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  initialTearCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   staplerTestMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   staplerTestCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1217,6 +1261,8 @@ export type LaminationMs2095UncheckedUpdateManyInput = {
   adhesive2CD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   tearResistanceMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   tearResistanceCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  initialTearMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  initialTearCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   staplerTestMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   staplerTestCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1266,6 +1312,8 @@ export type LaminationMs2095CountOrderByAggregateInput = {
   adhesive2CD?: Prisma.SortOrder
   tearResistanceMD?: Prisma.SortOrder
   tearResistanceCD?: Prisma.SortOrder
+  initialTearMD?: Prisma.SortOrder
+  initialTearCD?: Prisma.SortOrder
   staplerTestMD?: Prisma.SortOrder
   staplerTestCD?: Prisma.SortOrder
   emissivityAlum1?: Prisma.SortOrder
@@ -1309,6 +1357,8 @@ export type LaminationMs2095AvgOrderByAggregateInput = {
   adhesive2CD?: Prisma.SortOrder
   tearResistanceMD?: Prisma.SortOrder
   tearResistanceCD?: Prisma.SortOrder
+  initialTearMD?: Prisma.SortOrder
+  initialTearCD?: Prisma.SortOrder
   staplerTestMD?: Prisma.SortOrder
   staplerTestCD?: Prisma.SortOrder
   emissivityAlum1?: Prisma.SortOrder
@@ -1355,6 +1405,8 @@ export type LaminationMs2095MaxOrderByAggregateInput = {
   adhesive2CD?: Prisma.SortOrder
   tearResistanceMD?: Prisma.SortOrder
   tearResistanceCD?: Prisma.SortOrder
+  initialTearMD?: Prisma.SortOrder
+  initialTearCD?: Prisma.SortOrder
   staplerTestMD?: Prisma.SortOrder
   staplerTestCD?: Prisma.SortOrder
   emissivityAlum1?: Prisma.SortOrder
@@ -1404,6 +1456,8 @@ export type LaminationMs2095MinOrderByAggregateInput = {
   adhesive2CD?: Prisma.SortOrder
   tearResistanceMD?: Prisma.SortOrder
   tearResistanceCD?: Prisma.SortOrder
+  initialTearMD?: Prisma.SortOrder
+  initialTearCD?: Prisma.SortOrder
   staplerTestMD?: Prisma.SortOrder
   staplerTestCD?: Prisma.SortOrder
   emissivityAlum1?: Prisma.SortOrder
@@ -1447,6 +1501,8 @@ export type LaminationMs2095SumOrderByAggregateInput = {
   adhesive2CD?: Prisma.SortOrder
   tearResistanceMD?: Prisma.SortOrder
   tearResistanceCD?: Prisma.SortOrder
+  initialTearMD?: Prisma.SortOrder
+  initialTearCD?: Prisma.SortOrder
   staplerTestMD?: Prisma.SortOrder
   staplerTestCD?: Prisma.SortOrder
   emissivityAlum1?: Prisma.SortOrder
@@ -1495,6 +1551,8 @@ export type LaminationMs2095Select<ExtArgs extends runtime.Types.Extensions.Inte
   adhesive2CD?: boolean
   tearResistanceMD?: boolean
   tearResistanceCD?: boolean
+  initialTearMD?: boolean
+  initialTearCD?: boolean
   staplerTestMD?: boolean
   staplerTestCD?: boolean
   emissivityAlum1?: boolean
@@ -1544,6 +1602,8 @@ export type LaminationMs2095SelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   adhesive2CD?: boolean
   tearResistanceMD?: boolean
   tearResistanceCD?: boolean
+  initialTearMD?: boolean
+  initialTearCD?: boolean
   staplerTestMD?: boolean
   staplerTestCD?: boolean
   emissivityAlum1?: boolean
@@ -1593,6 +1653,8 @@ export type LaminationMs2095SelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   adhesive2CD?: boolean
   tearResistanceMD?: boolean
   tearResistanceCD?: boolean
+  initialTearMD?: boolean
+  initialTearCD?: boolean
   staplerTestMD?: boolean
   staplerTestCD?: boolean
   emissivityAlum1?: boolean
@@ -1642,6 +1704,8 @@ export type LaminationMs2095SelectScalar = {
   adhesive2CD?: boolean
   tearResistanceMD?: boolean
   tearResistanceCD?: boolean
+  initialTearMD?: boolean
+  initialTearCD?: boolean
   staplerTestMD?: boolean
   staplerTestCD?: boolean
   emissivityAlum1?: boolean
@@ -1662,7 +1726,7 @@ export type LaminationMs2095SelectScalar = {
   updatedAt?: boolean
 }
 
-export type LaminationMs2095Omit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "category" | "range" | "product" | "productID" | "grammage" | "tensileMD" | "tensileCD" | "tensileUnit" | "elongationMD" | "elongationCD" | "tongueTearMD" | "tongueTearCD" | "nailShankMD" | "nailShankCD" | "tearStrengthMD" | "tearStrengthCD" | "bondStrengthMD" | "bondStrengthCD" | "bondStrength2MD" | "bondStrength2CD" | "adhesiveMD" | "adhesiveCD" | "adhesive2MD" | "adhesive2CD" | "tearResistanceMD" | "tearResistanceCD" | "staplerTestMD" | "staplerTestCD" | "emissivityAlum1" | "emissivityAlum2" | "emissivityMPET" | "sewingMD" | "sewingCD" | "thickness" | "wVTR" | "bS476i1" | "bS476i2" | "bS476i3" | "tearPropagationMD" | "tearPropagationCD" | "bs476I" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["laminationMs2095"]>
+export type LaminationMs2095Omit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "category" | "range" | "product" | "productID" | "grammage" | "tensileMD" | "tensileCD" | "tensileUnit" | "elongationMD" | "elongationCD" | "tongueTearMD" | "tongueTearCD" | "nailShankMD" | "nailShankCD" | "tearStrengthMD" | "tearStrengthCD" | "bondStrengthMD" | "bondStrengthCD" | "bondStrength2MD" | "bondStrength2CD" | "adhesiveMD" | "adhesiveCD" | "adhesive2MD" | "adhesive2CD" | "tearResistanceMD" | "tearResistanceCD" | "initialTearMD" | "initialTearCD" | "staplerTestMD" | "staplerTestCD" | "emissivityAlum1" | "emissivityAlum2" | "emissivityMPET" | "sewingMD" | "sewingCD" | "thickness" | "wVTR" | "bS476i1" | "bS476i2" | "bS476i3" | "tearPropagationMD" | "tearPropagationCD" | "bs476I" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["laminationMs2095"]>
 
 export type $LaminationMs2095Payload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "LaminationMs2095"
@@ -1696,6 +1760,8 @@ export type $LaminationMs2095Payload<ExtArgs extends runtime.Types.Extensions.In
     adhesive2CD: number | null
     tearResistanceMD: number | null
     tearResistanceCD: number | null
+    initialTearMD: number | null
+    initialTearCD: number | null
     staplerTestMD: number | null
     staplerTestCD: number | null
     emissivityAlum1: number | null
@@ -2165,6 +2231,8 @@ export interface LaminationMs2095FieldRefs {
   readonly adhesive2CD: Prisma.FieldRef<"LaminationMs2095", 'Float'>
   readonly tearResistanceMD: Prisma.FieldRef<"LaminationMs2095", 'Float'>
   readonly tearResistanceCD: Prisma.FieldRef<"LaminationMs2095", 'Float'>
+  readonly initialTearMD: Prisma.FieldRef<"LaminationMs2095", 'Float'>
+  readonly initialTearCD: Prisma.FieldRef<"LaminationMs2095", 'Float'>
   readonly staplerTestMD: Prisma.FieldRef<"LaminationMs2095", 'Float'>
   readonly staplerTestCD: Prisma.FieldRef<"LaminationMs2095", 'Float'>
   readonly emissivityAlum1: Prisma.FieldRef<"LaminationMs2095", 'Float'>

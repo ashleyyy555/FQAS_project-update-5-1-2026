@@ -137,6 +137,9 @@ model LaminationBubbleFoamBubble {
   tearResistanceMD Float?
   tearResistanceCD Float?
 
+  initialTearMD Float?
+  initialTearCD Float?
+
   staplerTestMD Float?
   staplerTestCD Float?
 
@@ -206,6 +209,9 @@ model LaminationBubbleFoil {
   tearResistanceMD Float?
   tearResistanceCD Float?
 
+  initialTearMD Float?
+  initialTearCD Float?
+
   staplerTestMD Float?
   staplerTestCD Float?
 
@@ -273,6 +279,9 @@ model LaminationFilmFoilAlumFGlass {
 
   tearResistanceMD Float?
   tearResistanceCD Float?
+
+  initialTearMD Float?
+  initialTearCD Float?
 
   staplerTestMD Float?
   staplerTestCD Float?
@@ -342,6 +351,9 @@ model LaminationLeno {
   tearResistanceMD Float?
   tearResistanceCD Float?
 
+  initialTearMD Float?
+  initialTearCD Float?
+
   staplerTestMD Float?
   staplerTestCD Float?
 
@@ -409,6 +421,9 @@ model LaminationMs2095 {
 
   tearResistanceMD Float?
   tearResistanceCD Float?
+
+  initialTearMD Float?
+  initialTearCD Float?
 
   staplerTestMD Float?
   staplerTestCD Float?
@@ -478,6 +493,9 @@ model LaminationNonWoven {
   tearResistanceMD Float?
   tearResistanceCD Float?
 
+  initialTearMD Float?
+  initialTearCD Float?
+
   staplerTestMD Float?
   staplerTestCD Float?
 
@@ -545,6 +563,9 @@ model LaminationPaperFoil {
 
   tearResistanceMD Float?
   tearResistanceCD Float?
+
+  initialTearMD Float?
+  initialTearCD Float?
 
   staplerTestMD Float?
   staplerTestCD Float?
@@ -614,6 +635,9 @@ model LaminationRadiantBarrier {
   tearResistanceMD Float?
   tearResistanceCD Float?
 
+  initialTearMD Float?
+  initialTearCD Float?
+
   staplerTestMD Float?
   staplerTestCD Float?
 
@@ -682,6 +706,9 @@ model LaminationUltraFoil {
   tearResistanceMD Float?
   tearResistanceCD Float?
 
+  initialTearMD Float?
+  initialTearCD Float?
+
   staplerTestMD Float?
   staplerTestCD Float?
 
@@ -749,6 +776,9 @@ model LaminationWrapper {
 
   tearResistanceMD Float?
   tearResistanceCD Float?
+
+  initialTearMD Float?
+  initialTearCD Float?
 
   staplerTestMD Float?
   staplerTestCD Float?

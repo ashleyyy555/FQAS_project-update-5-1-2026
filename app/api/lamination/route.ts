@@ -130,6 +130,9 @@ export async function POST(req: Request) {
     const tearResistanceMD = toNumOrNull(body?.tearResistanceMD);
     const tearResistanceCD = toNumOrNull(body?.tearResistanceCD);
 
+    const initialTearMD = toNumOrNull(body?.initialTearMD);
+    const initialTearCD = toNumOrNull(body?.initialTearCD);
+
     const staplerTestMD = toNumOrNull(body?.staplerTestMD);
     const staplerTestCD = toNumOrNull(body?.staplerTestCD);
 
@@ -214,6 +217,9 @@ export async function POST(req: Request) {
 
       tearResistanceMD,
       tearResistanceCD,
+
+      initialTearMD,
+      initialTearCD,
 
       staplerTestMD,
       staplerTestCD,

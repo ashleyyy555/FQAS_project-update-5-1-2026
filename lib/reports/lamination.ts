@@ -71,6 +71,8 @@ export type LaminationMetrics = {
   adhesive2CD: StatTriple;
   tearResistanceMD: StatTriple;
   tearResistanceCD: StatTriple;
+  initialTearMD: StatTriple;
+  initialTearCD: StatTriple;
   staplerTestMD: StatTriple;
   staplerTestCD: StatTriple;
   emissivityAlum1: StatTriple;
@@ -126,6 +128,8 @@ type LaminationRow = {
   adhesive2CD: number | null,
   tearResistanceMD: number | null,
   tearResistanceCD: number | null,
+  initialTearMD: number | null,
+  initialTearCD: number | null,
   staplerTestMD: number | null,
   staplerTestCD: number | null,
   emissivityAlum1: number | null,
@@ -291,6 +295,8 @@ export async function getLaminationReport(
       adhesive2CD: true,
       tearResistanceMD: true,
       tearResistanceCD: true,
+      initialTearMD: true,
+      initialTearCD: true,
       staplerTestMD: true,
       staplerTestCD: true,
       emissivityAlum1: true,
@@ -323,7 +329,7 @@ export async function getLaminationReport(
     "tongueTearMD","tongueTearCD","nailShankMD","nailShankCD",
     "tearStrengthMD","tearStrengthCD","bondStrengthMD","bondStrengthCD",
     "bondStrength2MD","bondStrength2CD","adhesiveMD","adhesiveCD",
-    "adhesive2MD","adhesive2CD","tearResistanceMD","tearResistanceCD",
+    "adhesive2MD","adhesive2CD","tearResistanceMD","tearResistanceCD","initialTearMD", "initialTearCD",
     "staplerTestMD","staplerTestCD","emissivityAlum1","emissivityAlum2",
     "emissivityMPET","sewingMD","sewingCD","thickness","wVTR",
     "bS476i1","bS476i2","bS476i3","bs476I","tearPropagationMD","tearPropagationCD"

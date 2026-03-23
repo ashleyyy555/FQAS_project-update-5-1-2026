@@ -162,6 +162,8 @@ const searchBtnRef = useRef<HTMLButtonElement>(null);
     adhesive2CD: "N/25.4mm",
     tearResistanceMD: "N",
     tearResistanceCD: "N",
+    initialTearMD: "N",
+    initialTearCD: "N",
     staplerTestMD: "N",
     staplerTestCD: "N",
     emissivityAlum1: "Index",

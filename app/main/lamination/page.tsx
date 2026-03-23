@@ -16,6 +16,7 @@ export default function LaminationUI() {
   const [showAdhesive, setShowAdhesive] = useState(false);
   const [showAdhesive2, setShowAdhesive2] = useState(false);
   const [showTearResistance, setShowTearResistance] = useState(false);
+  const [showInitialTear, setShowInitialTear] = useState(false);
   const [showStaplerTest, setShowStaplerTest] = useState(false);
   const [showEmissivity, setShowEmissivity] = useState(false);
   const [showSewing, setShowSewing] = useState(false);
@@ -59,6 +60,9 @@ export default function LaminationUI() {
 
   const [tearResistanceMD, setTearResistanceMD] = useState("");
   const [tearResistanceCD, setTearResistanceCD] = useState("");
+
+  const [initialTearMD, setInitialTearMD] = useState("");
+  const [initialTearCD, setInitialTearCD] = useState("");
 
   const [staplerTestMD, setStaplerTestMD] = useState("");
   const [staplerTestCD, setStaplerTestCD] = useState("");
@@ -183,6 +187,9 @@ export default function LaminationUI() {
           tearResistanceMD: showTearResistance ? tearResistanceMD : null,
           tearResistanceCD: showTearResistance ? tearResistanceCD : null,
 
+          initialTearMD: showInitialTear ? initialTearMD : null,
+          initialTearCD: showInitialTear ? initialTearCD : null,
+
           staplerTestMD: showStaplerTest ? staplerTestMD : null,
           staplerTestCD: showStaplerTest ? staplerTestCD : null,
 
@@ -235,6 +242,8 @@ export default function LaminationUI() {
       setAdhesive2CD("");
       setTearResistanceMD("");
       setTearResistanceCD("");
+      setInitialTearMD("");
+      setInitialTearCD("");
       setStaplerTestMD("");
       setStaplerTestCD("");
       setEmissivityAlum1("");
@@ -466,6 +475,15 @@ export default function LaminationUI() {
               onChange={() => setShowTearResistance(!showTearResistance)}
             />
             <span className="font-medium">Tear Resistance</span>
+          </label>
+
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={showInitialTear}
+              onChange={() => setShowInitialTear(!showInitialTear)}
+            />
+            <span className="font-medium">Initial Tear</span>
           </label>
 
           <label className="flex items-center space-x-2">
@@ -754,6 +772,24 @@ export default function LaminationUI() {
   </>
 )}
 
+        {/* Initial Tear */}
+{showInitialTear && (
+  <>
+    <div className="flex w-full items-center space-x-4 mt-2">
+      <label className="w-1/2 text-lg font-semibold text-right pr-4">
+        Initial Tear MD (N):
+      </label>
+      <input
+        placeholder="0.00"
+        value={initialTearMD}
+        onChange={(e) => handleNumberInput(e.target.value, setInitialTearMD)}
+        className="w-1/2 p-2 border border-gray-300 rounded-lg h-10"
+        onKeyDown={handleEnterMove}
+      />
+    </div>
+  </>
+)}
+
         {/* Stapler Test */}
 {showStaplerTest && (
   <>
@@ -955,6 +991,23 @@ export default function LaminationUI() {
         placeholder="0.00"
         value={tearResistanceCD}
         onChange={(e) => handleNumberInput(e.target.value, setTearResistanceCD)}
+        className="w-1/2 p-2 border border-gray-300 rounded-lg h-10"
+        onKeyDown={handleEnterMove}
+      />
+    </div>
+      </>
+)}
+
+{showInitialTear && (
+  <>
+    <div className="flex w-full items-center space-x-4 mt-2">
+      <label className="w-1/2 text-lg font-semibold text-right pr-4">
+        Initial Tear CD (N):
+      </label>
+      <input
+        placeholder="0.00"
+        value={initialTearCD}
+        onChange={(e) => handleNumberInput(e.target.value, setInitialTearCD)}
         className="w-1/2 p-2 border border-gray-300 rounded-lg h-10"
         onKeyDown={handleEnterMove}
       />
