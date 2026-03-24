@@ -49,6 +49,9 @@ export const laminationFields: InspectionField[] = [
   { key: "tearResistanceMD", label: "Tear Resistance MD (N)", type: "number", group: "Tear Resistance", searchable: true },
   { key: "tearResistanceCD", label: "Tear Resistance CD (N)", type: "number", group: "Tear Resistance", searchable: true },
 
+  { key: "initialTearMD", label: "Initial Tear MD (N)", type: "number", group: "Initial Tear", searchable: true },
+  { key: "initialTearCD", label: "Initial Tear CD (N)", type: "number", group: "Initial Tear", searchable: true },
+
   { key: "staplerTestMD", label: "Stapler Test MD (N)", type: "number", group: "Stapler Test", searchable: true },
   { key: "staplerTestCD", label: "Stapler Test CD (N)", type: "number", group: "Stapler Test", searchable: true },
 
