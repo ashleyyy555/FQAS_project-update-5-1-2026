@@ -56,6 +56,7 @@ export type LaminationMs2095AvgAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -98,6 +99,7 @@ export type LaminationMs2095SumAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -146,6 +148,7 @@ export type LaminationMs2095MinAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -197,6 +200,7 @@ export type LaminationMs2095MaxAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -248,6 +252,7 @@ export type LaminationMs2095CountAggregateOutputType = {
   emissivityAlum1: number
   emissivityAlum2: number
   emissivityMPET: number
+  emissivityMCPP: number
   sewingMD: number
   sewingCD: number
   thickness: number
@@ -295,6 +300,7 @@ export type LaminationMs2095AvgAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -337,6 +343,7 @@ export type LaminationMs2095SumAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -385,6 +392,7 @@ export type LaminationMs2095MinAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -436,6 +444,7 @@ export type LaminationMs2095MaxAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -487,6 +496,7 @@ export type LaminationMs2095CountAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -625,6 +635,7 @@ export type LaminationMs2095GroupByOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -699,6 +710,7 @@ export type LaminationMs2095WhereInput = {
   emissivityAlum1?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   emissivityAlum2?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   emissivityMPET?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
+  emissivityMCPP?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   sewingMD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   sewingCD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   thickness?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
@@ -750,6 +762,7 @@ export type LaminationMs2095OrderByWithRelationInput = {
   emissivityAlum1?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrderInput | Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingMD?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingCD?: Prisma.SortOrderInput | Prisma.SortOrder
   thickness?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -804,6 +817,7 @@ export type LaminationMs2095WhereUniqueInput = Prisma.AtLeast<{
   emissivityAlum1?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   emissivityAlum2?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   emissivityMPET?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
+  emissivityMCPP?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   sewingMD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   sewingCD?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
   thickness?: Prisma.FloatNullableFilter<"LaminationMs2095"> | number | null
@@ -855,6 +869,7 @@ export type LaminationMs2095OrderByWithAggregationInput = {
   emissivityAlum1?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrderInput | Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingMD?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingCD?: Prisma.SortOrderInput | Prisma.SortOrder
   thickness?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -914,6 +929,7 @@ export type LaminationMs2095ScalarWhereWithAggregatesInput = {
   emissivityAlum1?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
   emissivityAlum2?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
   emissivityMPET?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
+  emissivityMCPP?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
   sewingMD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
   sewingCD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
   thickness?: Prisma.FloatNullableWithAggregatesFilter<"LaminationMs2095"> | number | null
@@ -964,6 +980,7 @@ export type LaminationMs2095CreateInput = {
   emissivityAlum1?: number | null
   emissivityAlum2?: number | null
   emissivityMPET?: number | null
+  emissivityMCPP?: number | null
   sewingMD?: number | null
   sewingCD?: number | null
   thickness?: number | null
@@ -1015,6 +1032,7 @@ export type LaminationMs2095UncheckedCreateInput = {
   emissivityAlum1?: number | null
   emissivityAlum2?: number | null
   emissivityMPET?: number | null
+  emissivityMCPP?: number | null
   sewingMD?: number | null
   sewingCD?: number | null
   thickness?: number | null
@@ -1065,6 +1083,7 @@ export type LaminationMs2095UpdateInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1116,6 +1135,7 @@ export type LaminationMs2095UncheckedUpdateInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1167,6 +1187,7 @@ export type LaminationMs2095CreateManyInput = {
   emissivityAlum1?: number | null
   emissivityAlum2?: number | null
   emissivityMPET?: number | null
+  emissivityMCPP?: number | null
   sewingMD?: number | null
   sewingCD?: number | null
   thickness?: number | null
@@ -1217,6 +1238,7 @@ export type LaminationMs2095UpdateManyMutationInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1268,6 +1290,7 @@ export type LaminationMs2095UncheckedUpdateManyInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1319,6 +1342,7 @@ export type LaminationMs2095CountOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1364,6 +1388,7 @@ export type LaminationMs2095AvgOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1412,6 +1437,7 @@ export type LaminationMs2095MaxOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1463,6 +1489,7 @@ export type LaminationMs2095MinOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1508,6 +1535,7 @@ export type LaminationMs2095SumOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1558,6 +1586,7 @@ export type LaminationMs2095Select<ExtArgs extends runtime.Types.Extensions.Inte
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1609,6 +1638,7 @@ export type LaminationMs2095SelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1660,6 +1690,7 @@ export type LaminationMs2095SelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1711,6 +1742,7 @@ export type LaminationMs2095SelectScalar = {
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1726,7 +1758,7 @@ export type LaminationMs2095SelectScalar = {
   updatedAt?: boolean
 }
 
-export type LaminationMs2095Omit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "category" | "range" | "product" | "productID" | "grammage" | "tensileMD" | "tensileCD" | "tensileUnit" | "elongationMD" | "elongationCD" | "tongueTearMD" | "tongueTearCD" | "nailShankMD" | "nailShankCD" | "tearStrengthMD" | "tearStrengthCD" | "bondStrengthMD" | "bondStrengthCD" | "bondStrength2MD" | "bondStrength2CD" | "adhesiveMD" | "adhesiveCD" | "adhesive2MD" | "adhesive2CD" | "tearResistanceMD" | "tearResistanceCD" | "initialTearMD" | "initialTearCD" | "staplerTestMD" | "staplerTestCD" | "emissivityAlum1" | "emissivityAlum2" | "emissivityMPET" | "sewingMD" | "sewingCD" | "thickness" | "wVTR" | "bS476i1" | "bS476i2" | "bS476i3" | "tearPropagationMD" | "tearPropagationCD" | "bs476I" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["laminationMs2095"]>
+export type LaminationMs2095Omit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "category" | "range" | "product" | "productID" | "grammage" | "tensileMD" | "tensileCD" | "tensileUnit" | "elongationMD" | "elongationCD" | "tongueTearMD" | "tongueTearCD" | "nailShankMD" | "nailShankCD" | "tearStrengthMD" | "tearStrengthCD" | "bondStrengthMD" | "bondStrengthCD" | "bondStrength2MD" | "bondStrength2CD" | "adhesiveMD" | "adhesiveCD" | "adhesive2MD" | "adhesive2CD" | "tearResistanceMD" | "tearResistanceCD" | "initialTearMD" | "initialTearCD" | "staplerTestMD" | "staplerTestCD" | "emissivityAlum1" | "emissivityAlum2" | "emissivityMPET" | "emissivityMCPP" | "sewingMD" | "sewingCD" | "thickness" | "wVTR" | "bS476i1" | "bS476i2" | "bS476i3" | "tearPropagationMD" | "tearPropagationCD" | "bs476I" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["laminationMs2095"]>
 
 export type $LaminationMs2095Payload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "LaminationMs2095"
@@ -1767,6 +1799,7 @@ export type $LaminationMs2095Payload<ExtArgs extends runtime.Types.Extensions.In
     emissivityAlum1: number | null
     emissivityAlum2: number | null
     emissivityMPET: number | null
+    emissivityMCPP: number | null
     sewingMD: number | null
     sewingCD: number | null
     thickness: number | null
@@ -2238,6 +2271,7 @@ export interface LaminationMs2095FieldRefs {
   readonly emissivityAlum1: Prisma.FieldRef<"LaminationMs2095", 'Float'>
   readonly emissivityAlum2: Prisma.FieldRef<"LaminationMs2095", 'Float'>
   readonly emissivityMPET: Prisma.FieldRef<"LaminationMs2095", 'Float'>
+  readonly emissivityMCPP: Prisma.FieldRef<"LaminationMs2095", 'Float'>
   readonly sewingMD: Prisma.FieldRef<"LaminationMs2095", 'Float'>
   readonly sewingCD: Prisma.FieldRef<"LaminationMs2095", 'Float'>
   readonly thickness: Prisma.FieldRef<"LaminationMs2095", 'Float'>

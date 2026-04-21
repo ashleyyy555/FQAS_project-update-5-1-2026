@@ -56,6 +56,7 @@ export type LaminationFilmFoilAlumFGlassAvgAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -98,6 +99,7 @@ export type LaminationFilmFoilAlumFGlassSumAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -146,6 +148,7 @@ export type LaminationFilmFoilAlumFGlassMinAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -197,6 +200,7 @@ export type LaminationFilmFoilAlumFGlassMaxAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -248,6 +252,7 @@ export type LaminationFilmFoilAlumFGlassCountAggregateOutputType = {
   emissivityAlum1: number
   emissivityAlum2: number
   emissivityMPET: number
+  emissivityMCPP: number
   sewingMD: number
   sewingCD: number
   thickness: number
@@ -295,6 +300,7 @@ export type LaminationFilmFoilAlumFGlassAvgAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -337,6 +343,7 @@ export type LaminationFilmFoilAlumFGlassSumAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -385,6 +392,7 @@ export type LaminationFilmFoilAlumFGlassMinAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -436,6 +444,7 @@ export type LaminationFilmFoilAlumFGlassMaxAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -487,6 +496,7 @@ export type LaminationFilmFoilAlumFGlassCountAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -625,6 +635,7 @@ export type LaminationFilmFoilAlumFGlassGroupByOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -699,6 +710,7 @@ export type LaminationFilmFoilAlumFGlassWhereInput = {
   emissivityAlum1?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   emissivityAlum2?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   emissivityMPET?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
+  emissivityMCPP?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   sewingMD?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   sewingCD?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   thickness?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
@@ -750,6 +762,7 @@ export type LaminationFilmFoilAlumFGlassOrderByWithRelationInput = {
   emissivityAlum1?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrderInput | Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingMD?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingCD?: Prisma.SortOrderInput | Prisma.SortOrder
   thickness?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -804,6 +817,7 @@ export type LaminationFilmFoilAlumFGlassWhereUniqueInput = Prisma.AtLeast<{
   emissivityAlum1?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   emissivityAlum2?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   emissivityMPET?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
+  emissivityMCPP?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   sewingMD?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   sewingCD?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   thickness?: Prisma.FloatNullableFilter<"LaminationFilmFoilAlumFGlass"> | number | null
@@ -855,6 +869,7 @@ export type LaminationFilmFoilAlumFGlassOrderByWithAggregationInput = {
   emissivityAlum1?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrderInput | Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingMD?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingCD?: Prisma.SortOrderInput | Prisma.SortOrder
   thickness?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -914,6 +929,7 @@ export type LaminationFilmFoilAlumFGlassScalarWhereWithAggregatesInput = {
   emissivityAlum1?: Prisma.FloatNullableWithAggregatesFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   emissivityAlum2?: Prisma.FloatNullableWithAggregatesFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   emissivityMPET?: Prisma.FloatNullableWithAggregatesFilter<"LaminationFilmFoilAlumFGlass"> | number | null
+  emissivityMCPP?: Prisma.FloatNullableWithAggregatesFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   sewingMD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   sewingCD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationFilmFoilAlumFGlass"> | number | null
   thickness?: Prisma.FloatNullableWithAggregatesFilter<"LaminationFilmFoilAlumFGlass"> | number | null
@@ -964,6 +980,7 @@ export type LaminationFilmFoilAlumFGlassCreateInput = {
   emissivityAlum1?: number | null
   emissivityAlum2?: number | null
   emissivityMPET?: number | null
+  emissivityMCPP?: number | null
   sewingMD?: number | null
   sewingCD?: number | null
   thickness?: number | null
@@ -1015,6 +1032,7 @@ export type LaminationFilmFoilAlumFGlassUncheckedCreateInput = {
   emissivityAlum1?: number | null
   emissivityAlum2?: number | null
   emissivityMPET?: number | null
+  emissivityMCPP?: number | null
   sewingMD?: number | null
   sewingCD?: number | null
   thickness?: number | null
@@ -1065,6 +1083,7 @@ export type LaminationFilmFoilAlumFGlassUpdateInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1116,6 +1135,7 @@ export type LaminationFilmFoilAlumFGlassUncheckedUpdateInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1167,6 +1187,7 @@ export type LaminationFilmFoilAlumFGlassCreateManyInput = {
   emissivityAlum1?: number | null
   emissivityAlum2?: number | null
   emissivityMPET?: number | null
+  emissivityMCPP?: number | null
   sewingMD?: number | null
   sewingCD?: number | null
   thickness?: number | null
@@ -1217,6 +1238,7 @@ export type LaminationFilmFoilAlumFGlassUpdateManyMutationInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1268,6 +1290,7 @@ export type LaminationFilmFoilAlumFGlassUncheckedUpdateManyInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1319,6 +1342,7 @@ export type LaminationFilmFoilAlumFGlassCountOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1364,6 +1388,7 @@ export type LaminationFilmFoilAlumFGlassAvgOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1412,6 +1437,7 @@ export type LaminationFilmFoilAlumFGlassMaxOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1463,6 +1489,7 @@ export type LaminationFilmFoilAlumFGlassMinOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1508,6 +1535,7 @@ export type LaminationFilmFoilAlumFGlassSumOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1558,6 +1586,7 @@ export type LaminationFilmFoilAlumFGlassSelect<ExtArgs extends runtime.Types.Ext
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1609,6 +1638,7 @@ export type LaminationFilmFoilAlumFGlassSelectCreateManyAndReturn<ExtArgs extend
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1660,6 +1690,7 @@ export type LaminationFilmFoilAlumFGlassSelectUpdateManyAndReturn<ExtArgs extend
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1711,6 +1742,7 @@ export type LaminationFilmFoilAlumFGlassSelectScalar = {
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1726,7 +1758,7 @@ export type LaminationFilmFoilAlumFGlassSelectScalar = {
   updatedAt?: boolean
 }
 
-export type LaminationFilmFoilAlumFGlassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "category" | "range" | "product" | "productID" | "grammage" | "tensileMD" | "tensileCD" | "tensileUnit" | "elongationMD" | "elongationCD" | "tongueTearMD" | "tongueTearCD" | "nailShankMD" | "nailShankCD" | "tearStrengthMD" | "tearStrengthCD" | "bondStrengthMD" | "bondStrengthCD" | "bondStrength2MD" | "bondStrength2CD" | "adhesiveMD" | "adhesiveCD" | "adhesive2MD" | "adhesive2CD" | "tearResistanceMD" | "tearResistanceCD" | "initialTearMD" | "initialTearCD" | "staplerTestMD" | "staplerTestCD" | "emissivityAlum1" | "emissivityAlum2" | "emissivityMPET" | "sewingMD" | "sewingCD" | "thickness" | "wVTR" | "bS476i1" | "bS476i2" | "bS476i3" | "tearPropagationMD" | "tearPropagationCD" | "bs476I" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["laminationFilmFoilAlumFGlass"]>
+export type LaminationFilmFoilAlumFGlassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "category" | "range" | "product" | "productID" | "grammage" | "tensileMD" | "tensileCD" | "tensileUnit" | "elongationMD" | "elongationCD" | "tongueTearMD" | "tongueTearCD" | "nailShankMD" | "nailShankCD" | "tearStrengthMD" | "tearStrengthCD" | "bondStrengthMD" | "bondStrengthCD" | "bondStrength2MD" | "bondStrength2CD" | "adhesiveMD" | "adhesiveCD" | "adhesive2MD" | "adhesive2CD" | "tearResistanceMD" | "tearResistanceCD" | "initialTearMD" | "initialTearCD" | "staplerTestMD" | "staplerTestCD" | "emissivityAlum1" | "emissivityAlum2" | "emissivityMPET" | "emissivityMCPP" | "sewingMD" | "sewingCD" | "thickness" | "wVTR" | "bS476i1" | "bS476i2" | "bS476i3" | "tearPropagationMD" | "tearPropagationCD" | "bs476I" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["laminationFilmFoilAlumFGlass"]>
 
 export type $LaminationFilmFoilAlumFGlassPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "LaminationFilmFoilAlumFGlass"
@@ -1767,6 +1799,7 @@ export type $LaminationFilmFoilAlumFGlassPayload<ExtArgs extends runtime.Types.E
     emissivityAlum1: number | null
     emissivityAlum2: number | null
     emissivityMPET: number | null
+    emissivityMCPP: number | null
     sewingMD: number | null
     sewingCD: number | null
     thickness: number | null
@@ -2238,6 +2271,7 @@ export interface LaminationFilmFoilAlumFGlassFieldRefs {
   readonly emissivityAlum1: Prisma.FieldRef<"LaminationFilmFoilAlumFGlass", 'Float'>
   readonly emissivityAlum2: Prisma.FieldRef<"LaminationFilmFoilAlumFGlass", 'Float'>
   readonly emissivityMPET: Prisma.FieldRef<"LaminationFilmFoilAlumFGlass", 'Float'>
+  readonly emissivityMCPP: Prisma.FieldRef<"LaminationFilmFoilAlumFGlass", 'Float'>
   readonly sewingMD: Prisma.FieldRef<"LaminationFilmFoilAlumFGlass", 'Float'>
   readonly sewingCD: Prisma.FieldRef<"LaminationFilmFoilAlumFGlass", 'Float'>
   readonly thickness: Prisma.FieldRef<"LaminationFilmFoilAlumFGlass", 'Float'>

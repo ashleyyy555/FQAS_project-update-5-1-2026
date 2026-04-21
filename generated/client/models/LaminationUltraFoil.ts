@@ -56,6 +56,7 @@ export type LaminationUltraFoilAvgAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -98,6 +99,7 @@ export type LaminationUltraFoilSumAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -146,6 +148,7 @@ export type LaminationUltraFoilMinAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -197,6 +200,7 @@ export type LaminationUltraFoilMaxAggregateOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -248,6 +252,7 @@ export type LaminationUltraFoilCountAggregateOutputType = {
   emissivityAlum1: number
   emissivityAlum2: number
   emissivityMPET: number
+  emissivityMCPP: number
   sewingMD: number
   sewingCD: number
   thickness: number
@@ -295,6 +300,7 @@ export type LaminationUltraFoilAvgAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -337,6 +343,7 @@ export type LaminationUltraFoilSumAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -385,6 +392,7 @@ export type LaminationUltraFoilMinAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -436,6 +444,7 @@ export type LaminationUltraFoilMaxAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -487,6 +496,7 @@ export type LaminationUltraFoilCountAggregateInputType = {
   emissivityAlum1?: true
   emissivityAlum2?: true
   emissivityMPET?: true
+  emissivityMCPP?: true
   sewingMD?: true
   sewingCD?: true
   thickness?: true
@@ -625,6 +635,7 @@ export type LaminationUltraFoilGroupByOutputType = {
   emissivityAlum1: number | null
   emissivityAlum2: number | null
   emissivityMPET: number | null
+  emissivityMCPP: number | null
   sewingMD: number | null
   sewingCD: number | null
   thickness: number | null
@@ -699,6 +710,7 @@ export type LaminationUltraFoilWhereInput = {
   emissivityAlum1?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
   emissivityAlum2?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
   emissivityMPET?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
+  emissivityMCPP?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
   sewingMD?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
   sewingCD?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
   thickness?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
@@ -750,6 +762,7 @@ export type LaminationUltraFoilOrderByWithRelationInput = {
   emissivityAlum1?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrderInput | Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingMD?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingCD?: Prisma.SortOrderInput | Prisma.SortOrder
   thickness?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -804,6 +817,7 @@ export type LaminationUltraFoilWhereUniqueInput = Prisma.AtLeast<{
   emissivityAlum1?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
   emissivityAlum2?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
   emissivityMPET?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
+  emissivityMCPP?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
   sewingMD?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
   sewingCD?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
   thickness?: Prisma.FloatNullableFilter<"LaminationUltraFoil"> | number | null
@@ -855,6 +869,7 @@ export type LaminationUltraFoilOrderByWithAggregationInput = {
   emissivityAlum1?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrderInput | Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrderInput | Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingMD?: Prisma.SortOrderInput | Prisma.SortOrder
   sewingCD?: Prisma.SortOrderInput | Prisma.SortOrder
   thickness?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -914,6 +929,7 @@ export type LaminationUltraFoilScalarWhereWithAggregatesInput = {
   emissivityAlum1?: Prisma.FloatNullableWithAggregatesFilter<"LaminationUltraFoil"> | number | null
   emissivityAlum2?: Prisma.FloatNullableWithAggregatesFilter<"LaminationUltraFoil"> | number | null
   emissivityMPET?: Prisma.FloatNullableWithAggregatesFilter<"LaminationUltraFoil"> | number | null
+  emissivityMCPP?: Prisma.FloatNullableWithAggregatesFilter<"LaminationUltraFoil"> | number | null
   sewingMD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationUltraFoil"> | number | null
   sewingCD?: Prisma.FloatNullableWithAggregatesFilter<"LaminationUltraFoil"> | number | null
   thickness?: Prisma.FloatNullableWithAggregatesFilter<"LaminationUltraFoil"> | number | null
@@ -964,6 +980,7 @@ export type LaminationUltraFoilCreateInput = {
   emissivityAlum1?: number | null
   emissivityAlum2?: number | null
   emissivityMPET?: number | null
+  emissivityMCPP?: number | null
   sewingMD?: number | null
   sewingCD?: number | null
   thickness?: number | null
@@ -1015,6 +1032,7 @@ export type LaminationUltraFoilUncheckedCreateInput = {
   emissivityAlum1?: number | null
   emissivityAlum2?: number | null
   emissivityMPET?: number | null
+  emissivityMCPP?: number | null
   sewingMD?: number | null
   sewingCD?: number | null
   thickness?: number | null
@@ -1065,6 +1083,7 @@ export type LaminationUltraFoilUpdateInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1116,6 +1135,7 @@ export type LaminationUltraFoilUncheckedUpdateInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1167,6 +1187,7 @@ export type LaminationUltraFoilCreateManyInput = {
   emissivityAlum1?: number | null
   emissivityAlum2?: number | null
   emissivityMPET?: number | null
+  emissivityMCPP?: number | null
   sewingMD?: number | null
   sewingCD?: number | null
   thickness?: number | null
@@ -1217,6 +1238,7 @@ export type LaminationUltraFoilUpdateManyMutationInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1268,6 +1290,7 @@ export type LaminationUltraFoilUncheckedUpdateManyInput = {
   emissivityAlum1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityAlum2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   emissivityMPET?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  emissivityMCPP?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingMD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   sewingCD?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   thickness?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1319,6 +1342,7 @@ export type LaminationUltraFoilCountOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1364,6 +1388,7 @@ export type LaminationUltraFoilAvgOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1412,6 +1437,7 @@ export type LaminationUltraFoilMaxOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1463,6 +1489,7 @@ export type LaminationUltraFoilMinOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1508,6 +1535,7 @@ export type LaminationUltraFoilSumOrderByAggregateInput = {
   emissivityAlum1?: Prisma.SortOrder
   emissivityAlum2?: Prisma.SortOrder
   emissivityMPET?: Prisma.SortOrder
+  emissivityMCPP?: Prisma.SortOrder
   sewingMD?: Prisma.SortOrder
   sewingCD?: Prisma.SortOrder
   thickness?: Prisma.SortOrder
@@ -1558,6 +1586,7 @@ export type LaminationUltraFoilSelect<ExtArgs extends runtime.Types.Extensions.I
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1609,6 +1638,7 @@ export type LaminationUltraFoilSelectCreateManyAndReturn<ExtArgs extends runtime
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1660,6 +1690,7 @@ export type LaminationUltraFoilSelectUpdateManyAndReturn<ExtArgs extends runtime
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1711,6 +1742,7 @@ export type LaminationUltraFoilSelectScalar = {
   emissivityAlum1?: boolean
   emissivityAlum2?: boolean
   emissivityMPET?: boolean
+  emissivityMCPP?: boolean
   sewingMD?: boolean
   sewingCD?: boolean
   thickness?: boolean
@@ -1726,7 +1758,7 @@ export type LaminationUltraFoilSelectScalar = {
   updatedAt?: boolean
 }
 
-export type LaminationUltraFoilOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "category" | "range" | "product" | "productID" | "grammage" | "tensileMD" | "tensileCD" | "tensileUnit" | "elongationMD" | "elongationCD" | "tongueTearMD" | "tongueTearCD" | "nailShankMD" | "nailShankCD" | "tearStrengthMD" | "tearStrengthCD" | "bondStrengthMD" | "bondStrengthCD" | "bondStrength2MD" | "bondStrength2CD" | "adhesiveMD" | "adhesiveCD" | "adhesive2MD" | "adhesive2CD" | "tearResistanceMD" | "tearResistanceCD" | "initialTearMD" | "initialTearCD" | "staplerTestMD" | "staplerTestCD" | "emissivityAlum1" | "emissivityAlum2" | "emissivityMPET" | "sewingMD" | "sewingCD" | "thickness" | "wVTR" | "bS476i1" | "bS476i2" | "bS476i3" | "tearPropagationMD" | "tearPropagationCD" | "bs476I" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["laminationUltraFoil"]>
+export type LaminationUltraFoilOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "category" | "range" | "product" | "productID" | "grammage" | "tensileMD" | "tensileCD" | "tensileUnit" | "elongationMD" | "elongationCD" | "tongueTearMD" | "tongueTearCD" | "nailShankMD" | "nailShankCD" | "tearStrengthMD" | "tearStrengthCD" | "bondStrengthMD" | "bondStrengthCD" | "bondStrength2MD" | "bondStrength2CD" | "adhesiveMD" | "adhesiveCD" | "adhesive2MD" | "adhesive2CD" | "tearResistanceMD" | "tearResistanceCD" | "initialTearMD" | "initialTearCD" | "staplerTestMD" | "staplerTestCD" | "emissivityAlum1" | "emissivityAlum2" | "emissivityMPET" | "emissivityMCPP" | "sewingMD" | "sewingCD" | "thickness" | "wVTR" | "bS476i1" | "bS476i2" | "bS476i3" | "tearPropagationMD" | "tearPropagationCD" | "bs476I" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["laminationUltraFoil"]>
 
 export type $LaminationUltraFoilPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "LaminationUltraFoil"
@@ -1767,6 +1799,7 @@ export type $LaminationUltraFoilPayload<ExtArgs extends runtime.Types.Extensions
     emissivityAlum1: number | null
     emissivityAlum2: number | null
     emissivityMPET: number | null
+    emissivityMCPP: number | null
     sewingMD: number | null
     sewingCD: number | null
     thickness: number | null
@@ -2238,6 +2271,7 @@ export interface LaminationUltraFoilFieldRefs {
   readonly emissivityAlum1: Prisma.FieldRef<"LaminationUltraFoil", 'Float'>
   readonly emissivityAlum2: Prisma.FieldRef<"LaminationUltraFoil", 'Float'>
   readonly emissivityMPET: Prisma.FieldRef<"LaminationUltraFoil", 'Float'>
+  readonly emissivityMCPP: Prisma.FieldRef<"LaminationUltraFoil", 'Float'>
   readonly sewingMD: Prisma.FieldRef<"LaminationUltraFoil", 'Float'>
   readonly sewingCD: Prisma.FieldRef<"LaminationUltraFoil", 'Float'>
   readonly thickness: Prisma.FieldRef<"LaminationUltraFoil", 'Float'>

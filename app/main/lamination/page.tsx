@@ -70,6 +70,7 @@ export default function LaminationUI() {
   const [emissivityAlum1, setEmissivityAlum1] = useState("");
   const [emissivityAlum2, setEmissivityAlum2] = useState("");
   const [emissivityMPET, setEmissivityMPET] = useState("");
+  const [emissivityMCPP, setEmissivityMCPP] = useState("");
 
   const [sewingMD, setSewingMD] = useState("");
   const [sewingCD, setSewingCD] = useState("");
@@ -196,6 +197,7 @@ export default function LaminationUI() {
           emissivityAlum1: showEmissivity ? emissivityAlum1 : null,
           emissivityAlum2: showEmissivity ? emissivityAlum2 : null,
           emissivityMPET: showEmissivity ? emissivityMPET : null,
+          emissivityMCPP: showEmissivity ? emissivityMCPP : null,
 
           sewingMD: showSewing ? sewingMD : null,
           sewingCD: showSewing ? sewingCD : null,
@@ -249,6 +251,7 @@ export default function LaminationUI() {
       setEmissivityAlum1("");
       setEmissivityAlum2("");
       setEmissivityMPET("");
+      setEmissivityMCPP("");
       setSewingMD("");
       setSewingCD("");
       setThickness("");
@@ -1087,6 +1090,19 @@ export default function LaminationUI() {
         placeholder="0.00"
         value={emissivityMPET}
         onChange={(e) => handleNumberInput(e.target.value, setEmissivityMPET)}
+        className="w-1/2 p-2 border border-gray-300 rounded-lg h-10"
+        onKeyDown={handleEnterMove}
+      />
+    </div>
+
+        <div className="flex w-full items-center space-x-4 mt-2">
+      <label className="w-1/2 text-lg font-semibold text-right pr-4">
+        Emissivity MCPP (Index):
+      </label>
+      <input
+        placeholder="0.00"
+        value={emissivityMCPP}
+        onChange={(e) => handleNumberInput(e.target.value, setEmissivityMCPP)}
         className="w-1/2 p-2 border border-gray-300 rounded-lg h-10"
         onKeyDown={handleEnterMove}
       />

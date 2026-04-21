@@ -146,6 +146,7 @@ model LaminationBubbleFoamBubble {
   emissivityAlum1 Float?
   emissivityAlum2 Float?
   emissivityMPET  Float?
+  emissivityMCPP  Float?
 
   sewingMD Float?
   sewingCD Float?
@@ -218,6 +219,7 @@ model LaminationBubbleFoil {
   emissivityAlum1 Float?
   emissivityAlum2 Float?
   emissivityMPET  Float?
+  emissivityMCPP  Float?
 
   sewingMD Float?
   sewingCD Float?
@@ -289,6 +291,7 @@ model LaminationFilmFoilAlumFGlass {
   emissivityAlum1 Float?
   emissivityAlum2 Float?
   emissivityMPET  Float?
+  emissivityMCPP  Float?
 
   sewingMD Float?
   sewingCD Float?
@@ -360,6 +363,7 @@ model LaminationLeno {
   emissivityAlum1 Float?
   emissivityAlum2 Float?
   emissivityMPET  Float?
+  emissivityMCPP  Float?
 
   sewingMD Float?
   sewingCD Float?
@@ -431,6 +435,7 @@ model LaminationMs2095 {
   emissivityAlum1 Float?
   emissivityAlum2 Float?
   emissivityMPET  Float?
+  emissivityMCPP  Float?
 
   sewingMD Float?
   sewingCD Float?
@@ -502,6 +507,7 @@ model LaminationNonWoven {
   emissivityAlum1 Float?
   emissivityAlum2 Float?
   emissivityMPET  Float?
+  emissivityMCPP  Float?
 
   sewingMD Float?
   sewingCD Float?
@@ -573,6 +579,7 @@ model LaminationPaperFoil {
   emissivityAlum1 Float?
   emissivityAlum2 Float?
   emissivityMPET  Float?
+  emissivityMCPP  Float?
 
   sewingMD Float?
   sewingCD Float?
@@ -644,6 +651,7 @@ model LaminationRadiantBarrier {
   emissivityAlum1 Float?
   emissivityAlum2 Float?
   emissivityMPET  Float?
+  emissivityMCPP  Float?
 
   sewingMD Float?
   sewingCD Float?
@@ -715,6 +723,7 @@ model LaminationUltraFoil {
   emissivityAlum1 Float?
   emissivityAlum2 Float?
   emissivityMPET  Float?
+  emissivityMCPP  Float?
 
   sewingMD Float?
   sewingCD Float?
@@ -786,6 +795,7 @@ model LaminationWrapper {
   emissivityAlum1 Float?
   emissivityAlum2 Float?
   emissivityMPET  Float?
+  emissivityMCPP  Float?
 
   sewingMD Float?
   sewingCD Float?

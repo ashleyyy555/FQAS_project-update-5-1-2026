@@ -139,6 +139,7 @@ export async function POST(req: Request) {
     const emissivityAlum1 = toNumOrNull(body?.emissivityAlum1);
     const emissivityAlum2 = toNumOrNull(body?.emissivityAlum2);
     const emissivityMPET = toNumOrNull(body?.emissivityMPET);
+    const emissivityMCPP = toNumOrNull(body?.emissivityMCPP);
 
     const sewingMD = toNumOrNull(body?.sewingMD);
     const sewingCD = toNumOrNull(body?.sewingCD);
@@ -227,6 +228,7 @@ export async function POST(req: Request) {
       emissivityAlum1,
       emissivityAlum2,
       emissivityMPET,
+      emissivityMCPP,
 
       sewingMD,
       sewingCD,
