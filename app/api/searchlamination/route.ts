@@ -96,7 +96,7 @@ export async function POST(req: Request) {
       where,
       orderBy: [
         { date: "desc" },
-        { productID: "asc" },
+        { productID: "desc" },
       ],
     });
 

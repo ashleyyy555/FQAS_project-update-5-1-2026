@@ -137,7 +137,7 @@ export async function POST(req: Request) {
       },
       orderBy: [
         { testDate: "desc" },
-        { productID: "asc" },
+        { productID: "desc" },
       ],
     });
 

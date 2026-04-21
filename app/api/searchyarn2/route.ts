@@ -98,7 +98,7 @@ export async function POST(req: Request) {
       },
       orderBy: [
         { date: "desc" },
-        { productID: "asc" },
+        { productID: "desc" },
       ],
     });
 
