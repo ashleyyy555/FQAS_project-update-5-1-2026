@@ -135,7 +135,10 @@ export async function POST(req: Request) {
           lte: end,
         },
       },
-      orderBy: { productID: "asc" },
+      orderBy: [
+        { testDate: "desc" },
+        { productID: "asc" },
+      ],
     });
 
     // --- Format testDate safely for frontend ---

@@ -97,8 +97,8 @@ export async function POST(req: Request) {
         date: { gte: start, lte: end },
       },
       orderBy: [
+        { date: "desc" },
         { productID: "asc" },
-        { date: "asc" },
       ],
     });
 

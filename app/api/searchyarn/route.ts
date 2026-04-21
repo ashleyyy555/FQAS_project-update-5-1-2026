@@ -4,12 +4,12 @@ import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 
-// --- Normalize text: trim, remove spaces, optionally lowercase ---
-function normalizeText(v: unknown, toLower = true): string | null {
+// --- Normalize text: trim, remove spaces, uppercase by default ---
+function normalizeText(v: unknown, toUpper = true): string | null {
   const raw = String(v ?? "").trim();
   if (!raw) return null;
   const cleaned = raw.replace(/\s+/g, "");
-  return toLower ? cleaned.toUpperCase() : cleaned;
+  return toUpper ? cleaned.toUpperCase() : cleaned;
 }
 
 // --- Normalize Product ID: trim, remove spaces, uppercase ---
@@ -19,7 +19,7 @@ function normalizeProductID(v: unknown): string | null {
   return raw.replace(/\s+/g, "").toUpperCase();
 }
 
-// --- Validate product type: letters, numbers, dash, underscore, dot, slash ---
+// --- Validate product type: letters, numbers, dash, underscore, dot, slash, brackets ---
 function isValidProductType(v: string) {
   return /^[A-Z0-9\-_.\/()\[\]{}]+$/.test(v);
 }
@@ -29,8 +29,15 @@ function isValidDateStr(d: string) {
   return /^\d{4}-\d{2}-\d{2}$/.test(d);
 }
 
-// --- UTC-safe Date constructor]// ---
-function makeUtcDate(y: string, m: string, d: string, hh: number, mm: number, ss: number) {
+// --- UTC-safe Date constructor ---
+function makeUtcDate(
+  y: string,
+  m: string,
+  d: string,
+  hh: number,
+  mm: number,
+  ss: number
+) {
   return new Date(Date.UTC(Number(y), Number(m) - 1, Number(d), hh, mm, ss));
 }
 
@@ -49,45 +56,73 @@ export async function POST(req: Request) {
     const startDate = String(body.startDate ?? "").trim();
     const endDate = String(body.endDate ?? "").trim();
     const productTypeInput = String(body.productType ?? "").trim();
-    const machineInput = String(body.machine?? "").trim();
-    const denierInput = body.denier != null ? String(body.denier).trim() : "";
+    const machineInput = String(body.machine ?? "").trim();
+
+    let denier: number | undefined;
 
     // --- Validation ---
     if (!startDate || !endDate) {
-      return NextResponse.json({ message: "Both startDate and endDate are required." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Both startDate and endDate are required." },
+        { status: 400 }
+      );
     }
+
     if (!isValidDateStr(startDate) || !isValidDateStr(endDate)) {
-      return NextResponse.json({ message: "Dates must be in YYYY-MM-DD format." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Dates must be in YYYY-MM-DD format." },
+        { status: 400 }
+      );
     }
+
     if (!productTypeInput) {
-      return NextResponse.json({ message: "Product Type is required." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Product Type is required." },
+        { status: 400 }
+      );
     }
-    if (!isValidProductType(normalizeText(productTypeInput)!)) {
-      return NextResponse.json({ message: "Product Type must contain letters, numbers, dash, underscore, dot or slash." }, { status: 400 });
+
+    const productTypeNorm = normalizeText(productTypeInput);
+    if (!productTypeNorm || !isValidProductType(productTypeNorm)) {
+      return NextResponse.json(
+        {
+          message:
+            "Product Type must contain letters, numbers, dash, underscore, dot or slash.",
+        },
+        { status: 400 }
+      );
     }
+
     if (!machineInput) {
-      return NextResponse.json({ message: "Machine is required." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Machine is required." },
+        { status: 400 }
+      );
     }
-    
 
-    const productTypeNorm = normalizeText(productTypeInput)!;
-    const machineNorm = normalizeText(machineInput, false)!; // trim & remove spaces
-let denier: number | undefined;
+    const machineNorm = normalizeText(machineInput, false);
+    if (!machineNorm) {
+      return NextResponse.json(
+        { message: "Machine is required." },
+        { status: 400 }
+      );
+    }
 
-if (body.denier !== undefined && body.denier !== "") {
-  const parsed = Number(body.denier);
-  if (Number.isNaN(parsed)) {
-    return NextResponse.json(
-      { message: "Denier must be a valid number." },
-      { status: 400 }
-    );
-  }
-  denier = parsed;
-}
+    if (body.denier !== undefined && body.denier !== "") {
+      const parsed = Number(body.denier);
+      if (Number.isNaN(parsed)) {
+        return NextResponse.json(
+          { message: "Denier must be a valid number." },
+          { status: 400 }
+        );
+      }
+      denier = parsed;
+    }
 
-    // --- UTC dates ---
+    // --- UTC date range ---
     const [sy, sm, sd] = startDate.split("-");
     const [ey, em, ed] = endDate.split("-");
+
     const start = makeUtcDate(sy, sm, sd, 0, 0, 0);
     const end = makeUtcDate(ey, em, ed, 23, 59, 59);
 
@@ -97,17 +132,25 @@ if (body.denier !== undefined && body.denier !== "") {
         productType: productTypeNorm,
         machine: machineNorm,
         ...(denier !== undefined ? { denier } : {}),
-        date: { gte: start, lte: end },
+        date: {
+          gte: start,
+          lte: end,
+        },
       },
-      orderBy: { productID: "asc" },
+      orderBy: [
+        { date: "desc" },
+        { productID: "asc" },
+      ],
     });
 
-    // --- Format testDate for frontend ---
+    // --- Format date for frontend ---
     const formattedResults = results.map((r) => ({
       ...r,
       testDate: (() => {
         const d = new Date(r.date);
-        return isNaN(d.getTime()) ? "" : d.toISOString().split("T")[0].replace(/-/g, "/");
+        return isNaN(d.getTime())
+          ? ""
+          : d.toISOString().split("T")[0].replace(/-/g, "/");
       })(),
     }));
 
