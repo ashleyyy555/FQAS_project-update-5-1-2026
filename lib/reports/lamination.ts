@@ -78,6 +78,7 @@ export type LaminationMetrics = {
   emissivityAlum1: StatTriple;
   emissivityAlum2: StatTriple;
   emissivityMPET: StatTriple;
+  emissivityMCPP: StatTriple;
   sewingMD: StatTriple;
   sewingCD: StatTriple;
   thickness: StatTriple;
@@ -135,6 +136,7 @@ type LaminationRow = {
   emissivityAlum1: number | null,
   emissivityAlum2: number | null,
   emissivityMPET: number | null,
+  emissivityMCPP: number | null,
   sewingMD: number | null,
   sewingCD: number | null,
   thickness: number | null,
@@ -302,6 +304,7 @@ export async function getLaminationReport(
       emissivityAlum1: true,
       emissivityAlum2: true,
       emissivityMPET: true,
+      emissivityMCPP: true,
       sewingMD: true,
       sewingCD: true,
       thickness: true,
@@ -331,7 +334,7 @@ export async function getLaminationReport(
     "bondStrength2MD","bondStrength2CD","adhesiveMD","adhesiveCD",
     "adhesive2MD","adhesive2CD","tearResistanceMD","tearResistanceCD","initialTearMD", "initialTearCD",
     "staplerTestMD","staplerTestCD","emissivityAlum1","emissivityAlum2",
-    "emissivityMPET","sewingMD","sewingCD","thickness","wVTR",
+    "emissivityMPET","emissivityMCPP","sewingMD","sewingCD","thickness","wVTR",
     "bS476i1","bS476i2","bS476i3","bs476I","tearPropagationMD","tearPropagationCD"
   ] as const;
 

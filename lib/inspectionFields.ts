@@ -58,6 +58,7 @@ export const laminationFields: InspectionField[] = [
   { key: "emissivityAlum1", label: "Emissivity Alum 1 (Index)", type: "number", group: "Emissivity",searchable: true },
   { key: "emissivityAlum2", label: "Emissivity Alum 2 (Index)", type: "number", group: "Emissivity", searchable: true },
   { key: "emissivityMPET", label: "Emissivity MPET (Index)", type: "number", group: "Emissivity", searchable: true },
+  { key: "emissivityMCPP", label: "Emissivity MCPP (Index)", type: "number", group: "Emissivity", searchable: true },
 
   { key: "sewingMD", label: "Sewing MD (%)", type: "number", group: "Sewing", searchable: true },
   { key: "sewingCD", label: "Sewing CD (%)", type: "number", group: "Sewing", searchable: true },
